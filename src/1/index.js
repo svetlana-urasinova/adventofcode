@@ -1,17 +1,36 @@
-import { input as part1Input } from './part1-input.js';
+import { input } from './part1-input.js';
 export function main() {
-  part1();
+  const part1Answer = part1();
+  const part2Answer = part2();
 
-  return 'Hello world';
+  return `
+            <p>The sum of fuel requirements is ${part1Answer}.</p>
+            <p>The sum of fuel requirements with taking into account the mass of the added fuel is ${part2Answer}.</p>
+          `;
 }
 
 function part1() {
-  const inputData = getInputData(part1Input);
-  console.log(inputData);
+  return input.trim().split("\n").reduce((sum, massStr) => {
+    if (!massStr) { return sum }
+
+    // console.log(sum + BigInt(Math.floor(Number(str) / 3)));
+    // return sum + BigInt(Math.floor(Number(str) / 3) - 2)
+    console.log(`${massStr} -> ${getFuelAmount(massStr)}`);
+    return sum + getFuelAmount(Number(massStr))
+  }, 0).toString();
 }
 
-function getInputData(input) {
-  return input.split("\n").reduce((inputData, str) =>
-    str === "" ? inputData : [...inputData, Number(str)]
-    , [])
+function part2() {
+  return input.trim().split("\n").reduce((sum, massStr) => {
+    if (!massStr) { return sum }
+
+    // console.log(sum + BigInt(Math.floor(Number(str) / 3)));
+    // return sum + BigInt(Math.floor(Number(str) / 3) - 2)
+    console.log(`${massStr} -> ${getFuelAmount(massStr)}`);
+    return sum + getFuelAmount(Number(massStr))
+  }, 0).toString();
+}
+
+function getFuelAmount(mass) {
+  return Math.floor(mass / 3) - 2;
 }

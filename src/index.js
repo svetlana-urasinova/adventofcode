@@ -57,6 +57,6 @@ function loadPage(index) {
     mainTitleElement.classList.remove('hidden');
 
     const pageContent = getPageContent() || '';
-    mainContentElement.textContent = pageContent;
+    mainContentElement.innerHTML = pageContent;
   }
 }
