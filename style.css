@@ -1,0 +1,67 @@
+@import url("https://fonts.googleapis.com/css2?family=Comforter+Brush&family=Montserrat:wght@400;700&family=Noto+Sans+Mono&display=swap");
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--white);
+  color: var(--text);
+  font: normal 16px "Montserrat", sans-serif;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+p {
+  margin: 0 0 12px;
+  padding: 0;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto 1fr;
+  grid-template-areas:
+    "sidebar header"
+    "sidebar main";
+}
+
+.header {
+  grid-area: header;
+  padding: 20px 0;
+}
+
+.header-title {
+  margin: 0 0 20px;
+  text-align: center;
+}
+
+.sidebar {
+  background-color: #f5f5f5;
+  border: 2px solid #f0f0f0;
+  grid-area: sidebar;
+  padding: 12px 0;
+}
+
+.sidebar-item {
+  display: block;
+  padding: 12px 36px;
+}
+
+.sidebar-item:hover {
+  background-color: #eaeaea;
+}
+
+.main {
+  grid-area: main;
+  padding: 0 40px;
+}
+
+.main-title {
+  margin: 0 0 16px;
+}
+
+.hidden {
+  display: none;
+}
