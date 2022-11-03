@@ -1,5 +1,5 @@
-import { main as day1 } from './1.js';
-import { main as day2 } from './2.js';
+import { main as day1 } from './1/index.js';
+import { main as day2 } from './2/index.js';
 
 const DAYS_COUNT = 1;
 
