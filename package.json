@@ -1,0 +1,16 @@
+{
+  "name": "aoc2020",
+  "version": "0.1.0",
+  "scripts": {
+    "test": "jest"
+  },
+  "dependencies": {
+    "jest": "^29.2.2"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.16.0",
+    "@babel/preset-env": "^7.16.4",
+    "jest-cli": "^29.2.2",
+    "jest-environment-jsdom": "^29.2.2"
+  }
+}
