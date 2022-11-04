@@ -30,7 +30,6 @@ export function part2(input) {
 
 function getInputData(input) {
   const data = input.trim().split("\n\n");
-  console.log(data);
   const numbers = data.shift().split(',').map(str => Number(str));;
   const boards = data.map(str => str.trim().replace("\n", ' ').split(/\s+/).map(str => Number(str)));
 
