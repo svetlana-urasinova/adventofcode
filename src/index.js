@@ -9,6 +9,7 @@ import { main as day1of2021 } from './2021/1/index.js';
 import { main as day2of2021 } from './2021/2/index.js';
 import { main as day3of2021 } from './2021/3/index.js';
 import { main as day4of2021 } from './2021/4/index.js';
+import { main as day5of2021 } from './2021/5/index.js';
 
 const headerTitleYearElement = document.querySelector(".header-title-year");
 const mainElement = document.querySelector(".main");
@@ -35,6 +36,7 @@ const pages = {
     day2: () => day2of2021(),
     day3: () => day3of2021(),
     day4: () => day4of2021(),
+    day5: () => day5of2021(),
   }
 }
 
