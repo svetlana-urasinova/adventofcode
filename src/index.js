@@ -1,3 +1,5 @@
+import { links } from './links.js';
+
 import { main as day1 } from './1/index.js';
 import { main as day2 } from './2/index.js';
 import { main as day3 } from './3/index.js';
@@ -7,6 +9,9 @@ const DAYS_COUNT = 4;
 
 const mainElement = document.querySelector(".main");
 const mainTitleElement = mainElement.querySelector(".main-title");
+const mainSourceElement = mainElement.querySelector(".main-source");
+const mainSourceLinkToAocElement = mainSourceElement.querySelector(".main-source-link-aoc");
+const mainSourceLinkToGithubElement = mainSourceElement.querySelector(".main-source-link-github");
 const mainContentElement = mainElement.querySelector(".main-content");
 const sidebarElement = document.querySelector(".sidebar");
 const sidebarItemTemplate = document.querySelector("#sidebar_item");
@@ -59,6 +64,12 @@ function loadPage(index) {
   if (getPageContent) {
     mainTitleElement.textContent = `Day ${index}`;
     mainTitleElement.classList.remove('hidden');
+
+    mainSourceLinkToAocElement.textContent = links.aoc + index;
+    mainSourceLinkToAocElement.setAttribute('href', links.aoc + index);
+    mainSourceLinkToGithubElement.textContent = links.github + index;
+    mainSourceLinkToGithubElement.setAttribute('href', links.github + index);
+    mainSourceElement.classList.remove('hidden');
 
     const pageContent = getPageContent() || '';
     mainContentElement.innerHTML = pageContent;

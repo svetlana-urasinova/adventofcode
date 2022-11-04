@@ -6,7 +6,7 @@ export function main() {
   const part2Answer = part2(data);
 
   return `
-          <p>With inputs '12' and '2' left at position 0 will be <span class="answer">${part1Answer}</span>.</p>
+          <p>With inputs 12 and 2 left at position 0 will be <span class="answer">${part1Answer}</span>.</p>
           <p>In order to get output 19690720 inputs ${part2Answer.x} and ${part2Answer.y} are required which give you total result of <span class="answer">${part2Answer.res}</span>.</p>
           `;
 }
