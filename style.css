@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Comforter+Brush&family=Montserrat:wght@400;700&family=Noto+Sans+Mono&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Comforter+Brush&family=Montserrat:wght@400;600;700&family=Noto+Sans+Mono&display=swap");
 
 * {
   box-sizing: border-box;
@@ -59,13 +59,38 @@ p {
   padding: var(--padding-s) 0;
 }
 
-.sidebar-item {
+.sidebar-year {
+  text-align: center;
+}
+
+.sidebar-year-select {
+  background-color: var(--grey-pale);
+  border: none;
+  cursor: pointer;
+  font: 600 20px "Montserrat", sans-serif;
+  outline: none;
+  padding: var(--padding-xs);
+}
+
+.sidebar-year-select:hover {
+  background-color: var(--grey-light);
+}
+
+.sidebar-year-select option {
+  font-weight: 400;
+  font-size: 16px;
+}
+.sidebar-menu {
+  margin-top: 12px;
+}
+
+.sidebar-menu-item {
   display: block;
-  padding: 12px 36px;
+  padding: 12px 40px;
   white-space: nowrap;
 }
 
-.sidebar-item:hover {
+.sidebar-menu-item:hover {
   background-color: var(--grey-light);
 }
 
