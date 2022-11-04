@@ -1,29 +1,26 @@
 import { input } from './input.js';
 export function main() {
-  const part1Answer = part1();
-  const part2Answer = part2();
+  const part1Answer = part1(input);
+  const part2Answer = part2(input);
 
   return `
-            <p>The sum of fuel requirements is ${part1Answer}.</p>
-            <p>The sum of fuel requirements with taking into account the mass of the added fuel is ${part2Answer}.</p>
+            <p>The sum of fuel requirements is <span class="answer">${part1Answer}</span>.</p>
+            <p>The sum of fuel requirements with taking into account the mass of the added fuel is <span class="answer">${part2Answer}</span>.</p>
           `;
 }
 
-function part1() {
-  return input.trim().split("\n").reduce((sum, massStr) => {
+function part1(data) {
+  return data.trim().split("\n").reduce((sum, massStr) => {
     if (!massStr) { return sum }
 
     return sum + getFuelAmount(Number(massStr))
   }, 0).toString();
 }
 
-function part2() {
-  return input.trim().split("\n").reduce((sum, massStr) => {
+function part2(data) {
+  return data.trim().split("\n").reduce((sum, massStr) => {
     if (!massStr) { return sum }
 
-    // console.log(sum + BigInt(Math.floor(Number(str) / 3)));
-    // return sum + BigInt(Math.floor(Number(str) / 3) - 2)
-    console.log(`${massStr} -> ${getFuelAmount(massStr)}`);
     return sum + getUpdatedFuelAmount(Number(massStr))
   }, 0).toString();
 }

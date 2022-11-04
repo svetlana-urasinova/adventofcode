@@ -65,3 +65,9 @@ p {
 .hidden {
   display: none;
 }
+
+.answer {
+  background-color: #eaeaea;
+  font: normal 15px Noto Sans Mono, monospace;
+  padding: 0 4px;
+}

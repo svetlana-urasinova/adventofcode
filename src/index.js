@@ -1,7 +1,7 @@
 import { main as day1 } from './1/index.js';
 import { main as day2 } from './2/index.js';
 
-const DAYS_COUNT = 1;
+const DAYS_COUNT = 2;
 
 const mainElement = document.querySelector(".main");
 const mainTitleElement = mainElement.querySelector(".main-title");
