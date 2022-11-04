@@ -47,6 +47,7 @@ p {
 .sidebar-item {
   display: block;
   padding: 12px 36px;
+  white-space: nowrap;
 }
 
 .sidebar-item:hover {

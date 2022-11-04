@@ -1,5 +1,5 @@
 {
-  "name": "aoc2020",
+  "name": "aoc2019",
   "version": "0.1.0",
   "scripts": {
     "test": "jest"

@@ -1,7 +1,9 @@
 import { main as day1 } from './1/index.js';
 import { main as day2 } from './2/index.js';
+import { main as day3 } from './3/index.js';
+import { main as day4 } from './4/index.js';
 
-const DAYS_COUNT = 2;
+const DAYS_COUNT = 4;
 
 const mainElement = document.querySelector(".main");
 const mainTitleElement = mainElement.querySelector(".main-title");
@@ -12,6 +14,8 @@ const sidebarItemTemplate = document.querySelector("#sidebar_item");
 const pages = {
   day1: () => day1(),
   day2: () => day2(),
+  day3: () => day3(),
+  day4: () => day4(),
 }
 
 window.onload = () => {
