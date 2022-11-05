@@ -5,8 +5,8 @@ export function main() {
   const part2Answer = part2();
 
   return `
-        <p>${part1Answer}.</p>
-        <p>${part2Answer}.</p>
+        <p>After 80 days there would be <span class="answer">${part1Answer}</span> fish.</p>
+        <p>After 256 days there would be <span class="answer">${part2Answer}</span> fish.</p>
     `;
 }
 
