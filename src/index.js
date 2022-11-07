@@ -4,6 +4,7 @@ import { main as day1of2019 } from './2019/1/index.js';
 import { main as day2of2019 } from './2019/2/index.js';
 import { main as day3of2019 } from './2019/3/index.js';
 import { main as day4of2019 } from './2019/4/index.js';
+import { main as day5of2019 } from './2019/5/index.js';
 
 import { main as day1of2021 } from './2021/1/index.js';
 import { main as day2of2021 } from './2021/2/index.js';
@@ -30,6 +31,7 @@ const pages = {
     day2: () => day2of2019(),
     day3: () => day3of2019(),
     day4: () => day4of2019(),
+    day5: () => day5of2019(),
   },
 
   2021: {
