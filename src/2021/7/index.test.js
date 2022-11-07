@@ -1,7 +1,14 @@
-import {  } from './index.js';
+import { calculateFuel, calculateFuelPlus, getInputData } from './index.js';
+import { input } from './input-example.js';
 
 describe('2019-7', () => {
-  test("part 1: should get an element at position 0", () => {
-    // expect(getZeroPositionElement(`1,1,1,4,99,5,6,0,99`)).toBe(30);
+  const data = getInputData(input);
+
+  test("part 1: should correctly count fuel amount", () => {
+    expect(calculateFuel(data)).toBe(37)
+  });
+
+  test("part 2: should correctly count fuel amount", () => {
+    expect(calculateFuelPlus(data)).toBe(168)
   });
 })

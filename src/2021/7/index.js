@@ -20,7 +20,7 @@ function part2(data) {
   return calculateFuelPlus(data);
 }
 
-function getInputData(data) {
+export function getInputData(data) {
   return data.split(',').sort((a, b) => a - b);
 }
 
@@ -32,12 +32,12 @@ function getMedian(arr) {
   return Math.floor(arr.length / 2);
 }
 
-function calculateFuel(data) {
+export function calculateFuel(data) {
   const median = data[getMedian(data)];
   return calculateSum(data.map(el => Math.abs(median - el)));
 }
 
-function calculateFuelPlus(data) {
+export function calculateFuelPlus(data) {
   const findFuelAmount = (point, arr) => {
     let res = 0;
     for (let i = 0; i < arr.length; i++) {
