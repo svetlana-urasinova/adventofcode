@@ -119,7 +119,7 @@ function getCurrentDay() {
 function getCurrentYear() {
   const { year } = getPageDataFromUrl();
 
-  return year || Object.keys(pages)[0];
+  return year || Math.max(...Object.keys(pages));
 }
 
 function getPageDataFromUrl() {
