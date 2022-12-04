@@ -1,7 +1,7 @@
 import { part1, part2, getInputData } from './index.js';
 import { input } from './input-example.js';
 
-describe('2022-%DAY%', () => {
+describe('2022-10', () => {
   const data = getInputData(input);
 
   test("part 1: should count total syntax error score", () => {

@@ -15,6 +15,7 @@ import { main as day7of2021 } from './2021/7/index.js';
 import { main as day8of2021 } from './2021/8/index.js';
 import { main as day9of2021 } from './2021/9/index.js';
 import { main as day10of2021 } from './2021/10/index.js';
+import { main as day11of2021 } from './2021/11/index.js';
 
 import { main as day1of2022 } from './2022/1/index.js';
 import { main as day2of2022 } from './2022/2/index.js';
@@ -42,6 +43,7 @@ export const pages = {
     day8: () => day8of2021(),
     day9: () => day9of2021(),
     day10: () => day10of2021(),
+    day11: () => day11of2021(),
   },
 
   2022: {
