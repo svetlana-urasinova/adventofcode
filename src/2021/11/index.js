@@ -7,8 +7,8 @@ export function main() {
   const part2Answer = part2(data);
 
   return `
-        <p><span class="answer">${part1Answer}</span></p>        
-        <p><span class="answer">${part2Answer}</span></p>        
+        <p>There are total <span class="answer">${part1Answer}</span> flashes after 100 steps.</p>        
+        <p>The first step during which all octopuses flash is the step #<span class="answer">${part2Answer}</span>.</p>        
     `;
 }
 
