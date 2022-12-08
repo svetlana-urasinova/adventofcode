@@ -1,5 +1,6 @@
 {
   "editor.tabSize": 2,
   "luahelper.format.indent_width": 2,
-  "editor.detectIndentation": false
+  "editor.detectIndentation": false,
+  "liveServer.settings.port": 5502
 }
