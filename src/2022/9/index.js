@@ -12,18 +12,16 @@ export function main() {
 
 export function part1(input) {
   const instructions = getInputData(input);
-  const visited = new Set();
   const knots = new Array(2).fill(0).map(_ => ({ x: 0, y: 0 }));
 
-  return runInstructions(instructions, knots, visited);
+  return runInstructions(instructions, knots);
 }
 
 export function part2(input) {
   const instructions = getInputData(input);
-  const visited = new Set();
   const knots = new Array(10).fill(0).map(_ => ({ x: 0, y: 0 }));
 
-  return runInstructions(instructions, knots, visited);
+  return runInstructions(instructions, knots);
 }
 
 export function getInputData(data) {
@@ -34,7 +32,11 @@ export function getInputData(data) {
   });
 }
 
-function runInstructions(instructions, knots, visited) {
+function runInstructions(instructions, knots, visited = null) {
+  if (!visited) {
+    visited = new Set();
+  }
+
   if (instructions.length === 0) {
     return visited.size;
   }
@@ -57,16 +59,16 @@ function move(instruction, knots, visited) {
     updatedKnots[0][major] += steps < 0 ? -1 : 1;
 
     for (let j = 1; j < knots.length; j++) {
-      const dMajor = updatedKnots[j][major] > updatedKnots[j - 1][major] ? -1 : 1;
-      const dMinor = updatedKnots[j][minor] > updatedKnots[j - 1][minor] ? -1 : 1;
+      const currentKnot = updatedKnots[j];
+      const previousKnot = updatedKnots[j - 1];
 
-      if (!isTouching(updatedKnots[j - 1], updatedKnots[j])) {
-        if (updatedKnots[j][minor] !== updatedKnots[j - 1][minor]) {
-          updatedKnots[j][minor] += dMinor;
+      if (!isTouching(currentKnot, previousKnot)) {
+        if (currentKnot[minor] !== previousKnot[minor]) {
+          currentKnot[minor] += currentKnot[minor] > previousKnot[minor] ? -1 : 1;
         }
 
-        if (updatedKnots[j - 1][major] !== updatedKnots[j][major]) {
-          updatedKnots[j][major] += dMajor;
+        if (currentKnot[major] !== previousKnot[major]) {
+          currentKnot[major] += currentKnot[major] > previousKnot[major] ? -1 : 1;
         };
       }
     }
