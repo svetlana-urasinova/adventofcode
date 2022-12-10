@@ -14,28 +14,29 @@ export function main() {
 
 export function part1(data) {
   const BREAKPOINTS = [20, 60, 100, 140, 180, 220];
+
   let sum = 0;
 
-  const callback = (counter, x) => {
+  const updateSum = (counter, x) => {
     if (BREAKPOINTS.includes(counter)) {
       sum += counter * x;
     }
   }
 
-  parseInstructions(data, callback);
+  parseInstructions(data, updateSum);
 
   return sum;
 }
 
 export function part2(data) {
-  const BREAKPOINTS = [40, 80, 120, 160, 200];
-  const lineLength = 40;
+  const BREAKPOINTS = [40, 80, 120, 160, 200]
+  const LINE_LENGTH = 40;
 
   let currentLine = 0;
   let img = '';
 
-  const callback = (counter, x) => {
-    const position = counter - currentLine * lineLength - 1;
+  const updateImg = (counter, x) => {
+    const position = counter - currentLine * LINE_LENGTH - 1;
 
     img += spriteIncludesCurrentPixel(position, x, BREAKPOINTS) ? '#' : '.';
 
@@ -45,7 +46,7 @@ export function part2(data) {
     }
   }
 
-  parseInstructions(data, callback);
+  parseInstructions(data, updateImg);
 
   return img;
 }
