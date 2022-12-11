@@ -81,11 +81,8 @@ function roundWithRelief(monkeys) {
       const item = items.shift();
       const updatedItem = Math.floor(updateItem(item, operator, modifier) / 3);
 
-      if (updatedItem % divisor === 0) {
-        updatedMonkeys[ifTrue].items.push(updatedItem);
-      } else {
-        updatedMonkeys[ifFalse].items.push(updatedItem);
-      }
+      const newOwnerIndex = updatedItem % divisor === 0 ? ifTrue : ifFalse;
+      updatedMonkeys[newOwnerIndex].items.push(updatedItem);
     }
   };
 
