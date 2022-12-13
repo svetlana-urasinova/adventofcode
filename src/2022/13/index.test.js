@@ -9,6 +9,6 @@ describe('2022-13', () => {
   });
 
   test("part 2: should find the decoder key", () => {
-    expect(part2(data)).toBe(140);
+    expect(part2(input)).toBe(140);
   });
 })
