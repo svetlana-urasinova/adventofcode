@@ -31,12 +31,14 @@ export function getInputData(data) {
 function comparePair(pair) {
   const [left, right] = pair;
 
-  const parsedLeft = parseList(left.replace(/(?<=^)\[|\](?=$)/g, ''));
-  const parsedRight = parseList(right.replace(/(?<=^)\[|\](?=$)/g, ''));
+  const parsedLeft = parseList(trimBrackets(left));
+  const parsedRight = parseList(trimBrackets(right));
 
-  const res = compare(parsedLeft, parsedRight, true);
+  return compare(parsedLeft, parsedRight, true);
+}
 
-  return res;
+function trimBrackets(str) {
+  return str.replace(/(?<=^)\[|\](?=$)/g, '');
 }
 
 function compare(left, right) {
