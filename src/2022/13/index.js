@@ -39,7 +39,7 @@ function comparePair(pair) {
   return res;
 }
 
-function compare(left, right, firstTime = false) {
+function compare(left, right) {
   if (Number.isInteger(left) && Number.isInteger(right)) {
     return left < right ? -1 : left > right ? 1 : 0;
   }
