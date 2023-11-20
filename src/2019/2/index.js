@@ -1,7 +1,7 @@
 import { input } from './input.js';
 
 export function main() {
-  const data = input.split(',').map(val => Number(val));
+  const data = parseInput(input);
   const part1Answer = part1(data);
   const part2Answer = part2(data);
 
@@ -9,6 +9,10 @@ export function main() {
           <p>With inputs 12 and 2 left at position 0 will be <span class="answer">${part1Answer}</span>.</p>
           <p>In order to get output 19690720 inputs ${part2Answer.x} and ${part2Answer.y} are required which give you total result of <span class="answer">${part2Answer.res}</span>.</p>
           `;
+}
+
+export function parseInput(input) {
+  return input.split(',').map(val => Number(val));
 }
 
 function part1(data) {
@@ -53,7 +57,7 @@ function updateInputs(data, input1, input2) {
 export function getZeroPositionElement(data) {
   const updatedData = executeOpcode(data);
 
-  return updatedData[0];
+  return updatedData?.[0];
 }
 
 export function executeOpcode(data, pointer = 0) {
