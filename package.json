@@ -1,6 +1,6 @@
 {
-  "name": "aoc2019",
-  "version": "0.1.0",
+  "name": "advent-of-code",
+  "version": "1.0.0",
   "scripts": {
     "test": "jest"
   },
