@@ -1,8 +1,11 @@
-const lodash = require('lodash');
+import lodash from 'lodash';
 
-module.exports = {
+const config = {
   testEnvironment: "jsdom",
   globals: {
-    '_': lodash
-  }
-}
+    _: lodash
+  },
+  setupFiles: ['./setupTests.js']
+};
+
+export default config;
