@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Comforter+Brush&family=Montserrat:wght@400;600;700&family=Noto+Sans+Mono&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Comforter+Brush&family=Montserrat:wght@400;600;700&family=Noto+Sans+Mono&display=swap');
 
 * {
   box-sizing: border-box;
@@ -21,7 +21,7 @@
 body {
   background-color: var(--white);
   color: var(--text);
-  font: normal 16px "Montserrat", sans-serif;
+  font: normal 16px 'Montserrat', sans-serif;
   min-height: 100vh;
   margin: 0;
   padding: 0;
@@ -37,8 +37,8 @@ p {
   grid-template-columns: auto 1fr;
   grid-template-rows: auto 1fr;
   grid-template-areas:
-    "sidebar header"
-    "sidebar main";
+    'sidebar header'
+    'sidebar main';
 }
 
 .header {
@@ -67,7 +67,7 @@ p {
   background-color: var(--grey-pale);
   border: none;
   cursor: pointer;
-  font: 600 20px "Montserrat", sans-serif;
+  font: 600 20px 'Montserrat', sans-serif;
   outline: none;
   padding: var(--padding-xs);
 }
@@ -122,7 +122,9 @@ p {
 }
 
 .answer {
-  background-color: var(--grey-light);
+  background-color: var(--grey-pale);
+  border: var(--border-basic);
+  border-radius: 4px;
   display: inline-block;
   font: normal 15px Noto Sans Mono, monospace;
   padding: 2px 4px;
