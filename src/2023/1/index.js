@@ -15,11 +15,7 @@ export function main() {
 }
 
 export function part1(data) {
-  return data.reduce((sum, line) => {
-    const parsedLine = parseNumbers(line, DIGITS_LIST);
-
-    return sum + getCalibrationValue(parsedLine);
-  }, 0);
+  return getCalibrationValuesSum(data, DIGITS_LIST);
 }
 
 export function part2(data) {
@@ -36,6 +32,14 @@ export function part2(data) {
     nine: 9,
   };
 
+  return getCalibrationValuesSum(data, dictionary);
+}
+
+export function getInputData(data) {
+  return data.split('\n');
+}
+
+function getCalibrationValuesSum(data, dictionary) {
   return data.reduce((sum, line) => {
     const parsedLine = parseNumbers(line, dictionary);
 
@@ -43,20 +47,20 @@ export function part2(data) {
   }, 0);
 }
 
-export function getInputData(data) {
-  return data.split('\n');
-}
-
 function parseNumbers(str, dictionary) {
   const occurrences = [];
 
   for (const word of Object.keys(dictionary)) {
-    let index = str.indexOf(word);
+    let i = 0;
 
-    while (index !== -1) {
-      occurrences[index] = dictionary[word];
+    while (i <= str.length - word.length) {
+      if (str.slice(i, i + word.length) === word) {
+        occurrences[i] = dictionary[word];
 
-      index = str.indexOf(word, index + 1);
+        i += word.length;
+      } else {
+        i++;
+      }
     }
   }
 
