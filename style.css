@@ -80,17 +80,26 @@ p {
   font-weight: 400;
   font-size: 16px;
 }
-.sidebar-menu {
+.sidebar-list {
+  display: flex;
+  flex-direction: column;
   margin-top: 12px;
+  padding: 0;
 }
 
-.sidebar-menu-item {
+.sidebar-link {
   display: block;
   padding: 12px 40px;
   white-space: nowrap;
 }
 
-.sidebar-menu-item:hover {
+.sidebar-link.selected {
+  color: var(--text);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.sidebar-link:not(.selected):hover {
   background-color: var(--grey-light);
 }
 

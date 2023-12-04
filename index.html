@@ -8,23 +8,21 @@
     <title>Advent of Code</title>
   </head>
   <body class="container">
-    <div class="header">
-      <h1 class="header-title">
-        Advent of Code <span class="header-title-year"></span>
-      </h1>
-    </div>
-    <div class="sidebar">
+    <header class="header">
+      <h1 class="header-title"> Advent of Code <span class="header-title-year"></span> </h1>
+    </header>
+    <nav class="sidebar">
       <div class="sidebar-year">
         <select class="sidebar-year-select"></select>
       </div>
-      <div class="sidebar-menu"></div>
-    </div>
-    <div class="main">
+      <ul class="sidebar-list"></ul>
+    </nav>
+    <main class="main">
       <h2 class="main-title hidden"></h2>
       <div class="main-content">
         <p>
-          &laquo;Advent of Code&raquo; is an annual set of programming puzzles.
-          It's a really nice challenge for anyone who likes coding!
+          &laquo;Advent of Code&raquo; is an annual set of programming puzzles. It's a really nice challenge for anyone
+          who likes coding!
         </p>
         <p>
           If you want to know more or to participate, please visit AoC website:
@@ -32,22 +30,19 @@
         </p>
       </div>
       <ul class="main-source hidden">
-        <li class="main-source-item">
-          Link to puzzle: <a class="main-source-link-aoc" target="_blank"></a>
-        </li>
+        <li class="main-source-item"> Link to puzzle: <a class="main-source-link-aoc" target="_blank"></a> </li>
         <li class="main-source-item">
           Link to solution:
           <a class="main-source-link-github" target="_blank"></a>
         </li>
       </ul>
-    </div>
-    <template id="sidebar_menu_item">
-      <a class="sidebar-menu-item"></a>
+    </main>
+    <template id="sidebar_list_item">
+      <li class="sidebar-list-item">
+        <a class="sidebar-link"></a>
+      </li>
     </template>
   </body>
-  <script
-    type="module"
-    src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"
-  ></script>
+  <script type="module" src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
   <script type="module" src="./src/index.js" defer></script>
 </html>

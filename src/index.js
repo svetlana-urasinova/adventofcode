@@ -1,69 +1,84 @@
 import { links } from './links.js';
 import { pages } from './pages.js';
 
-const headerTitleYearElement = document.querySelector(".header-title-year");
-const mainElement = document.querySelector(".main");
-const mainTitleElement = mainElement.querySelector(".main-title");
-const mainSourceElement = mainElement.querySelector(".main-source");
-const mainSourceLinkToAocElement = mainSourceElement.querySelector(".main-source-link-aoc");
-const mainSourceLinkToGithubElement = mainSourceElement.querySelector(".main-source-link-github");
-const mainContentElement = mainElement.querySelector(".main-content");
-const sidebarElement = document.querySelector(".sidebar");
-const sidebarYearSelectElement = sidebarElement.querySelector(".sidebar-year-select");
-const sidebarMenuElement = sidebarElement.querySelector(".sidebar-menu");
-const sidebarMenuItemTemplate = document.querySelector("#sidebar_menu_item");
+const headerTitleYearElement = document.querySelector('.header-title-year');
+const mainElement = document.querySelector('.main');
+const mainTitleElement = mainElement.querySelector('.main-title');
+const mainSourceElement = mainElement.querySelector('.main-source');
+const mainSourceLinkToAocElement = mainSourceElement.querySelector('.main-source-link-aoc');
+const mainSourceLinkToGithubElement = mainSourceElement.querySelector('.main-source-link-github');
+const mainContentElement = mainElement.querySelector('.main-content');
+const sidebarElement = document.querySelector('.sidebar');
+const sidebarYearSelectElement = sidebarElement.querySelector('.sidebar-year-select');
+const sidebarMenuElement = sidebarElement.querySelector('.sidebar-list');
+const sidebarMenuItemTemplate = document.querySelector('#sidebar_list_item');
+
+const currentDate = {
+  year: null,
+  day: null,
+};
 
 window.onload = () => {
-  updateSelectElement();
+  const { year, day } = getPageDataFromUrl();
 
-  sidebarYearSelectElement.addEventListener('change', () => {
-    selectChangeHandler();
-  })
+  currentDate.year = year || Math.max(...Object.keys(pages));
+  currentDate.day = day || 1;
+
+  initYearsSelectElement();
 
   if (location.hash) {
-    const currentDay = getCurrentDay();
-    loadPage(currentDay);
+    loadPage(currentDate.day);
   } else {
     generateSidebarMenu();
   }
-}
+};
 
-function updateSelectElement() {
-  const currentYear = getCurrentYear();
-
+function initYearsSelectElement() {
   const years = Object.keys(pages);
 
-  for (let year of years) {
+  for (const year of years) {
     const optionElement = document.createElement('option');
+
     optionElement.textContent = year;
     optionElement.value = year;
+
     sidebarYearSelectElement.appendChild(optionElement);
   }
 
-  sidebarYearSelectElement.value = currentYear;
+  sidebarYearSelectElement.addEventListener('change', function (event) {
+    yearsChangeHandler(event.target.value);
+  });
 }
 
-function selectChangeHandler() {
-  const currentDay = getCurrentDay();
-  const currentYear = sidebarYearSelectElement.value;
+function yearsChangeHandler(year) {
+  currentDate.year = year;
 
-  location.hash = `${currentYear}/day${currentDay}`;
-  loadPage(currentDay);
+  location.hash = `${year}/day${currentDate.day}`;
+  loadPage(currentDate.day);
 }
 
-function getSidebarItemElement(day) {
+function getSidebarItemElement(day, selected) {
   const sidebarItemClone = sidebarMenuItemTemplate.content.cloneNode(true);
-  const sidebarItem = sidebarItemClone.querySelector(".sidebar-menu-item");
-  const currentYear = getCurrentYear();
+  const sidebarItem = sidebarItemClone.querySelector('.sidebar-list-item');
 
-  sidebarItem.textContent = `Day ${day}`;
-  sidebarItem.setAttribute('href', `#${currentYear}/day${day}`);
-  sidebarItem.addEventListener('click', () => { sidebarItemClickHandler(day) });
+  const linkElement = sidebarItem.querySelector('a');
+
+  linkElement.textContent = `Day ${day}`;
+  linkElement.setAttribute('href', `#${currentDate.year}/day${day}`);
+  linkElement.addEventListener('click', () => {
+    sidebarItemClickHandler(day);
+  });
+
+  if (selected) {
+    linkElement.classList.add('selected');
+  }
 
   return sidebarItem;
 }
 
 function sidebarItemClickHandler(day) {
+  currentDate.day = day;
+
   const pageContent = loadPage(day);
 
   if (pageContent) {
@@ -72,35 +87,37 @@ function sidebarItemClickHandler(day) {
 }
 
 function generateSidebarMenu() {
-  const currentYear = getCurrentYear();
-  const currentYearPages = pages[currentYear];
+  const { year, day } = currentDate;
+
+  const currentYearPages = pages[year];
 
   if ('content' in document.createElement('template')) {
     sidebarMenuElement.innerHTML = '';
 
     for (let i = 1; i <= Object.keys(currentYearPages).length; i++) {
-      const sidebarItemElement = getSidebarItemElement(i);
+      const sidebarItemElement = getSidebarItemElement(i, i === day);
       sidebarMenuElement.appendChild(sidebarItemElement);
     }
   }
 }
 
 function loadPage(currentDay) {
-  const currentYear = getCurrentYear();
-  const getPageContent = pages[currentYear][`day${currentDay}`];
+  const { year } = currentDate;
 
-  headerTitleYearElement.textContent = currentYear;
+  const getPageContent = pages[year][`day${currentDay}`];
+
+  headerTitleYearElement.textContent = year;
   generateSidebarMenu();
 
   if (getPageContent) {
     mainTitleElement.textContent = `Day ${currentDay}`;
     mainTitleElement.classList.remove('hidden');
 
-    const aocLink = `${links.aoc}${currentYear}/day/${currentDay}`;
+    const aocLink = `${links.aoc}${year}/day/${currentDay}`;
     mainSourceLinkToAocElement.textContent = aocLink;
     mainSourceLinkToAocElement.setAttribute('href', aocLink);
 
-    const githubLink = `${links.github}${currentYear}/${currentDay}`;
+    const githubLink = `${links.github}${year}/${currentDay}`;
     mainSourceLinkToGithubElement.textContent = githubLink;
     mainSourceLinkToGithubElement.setAttribute('href', githubLink);
     mainSourceElement.classList.remove('hidden');
@@ -110,21 +127,12 @@ function loadPage(currentDay) {
   }
 }
 
-function getCurrentDay() {
-  const { day } = getPageDataFromUrl();
-
-  return day || 1;
-}
-
-function getCurrentYear() {
-  const { year } = getPageDataFromUrl();
-
-  return year || Math.max(...Object.keys(pages));
-}
-
 function getPageDataFromUrl() {
-  const hash = location.hash.substring(1);
-  const match = hash.match(/^([\d]{4})(\/day(\d+))?$/);
+  const hash = window.location.hash.substring(1);
+  const groups = hash.match(/^(?<year>[\d]{4})(\/day(?<day>\d+))?$/)?.groups;
 
-  return { year: match?.[1] || null, day: match?.[3] || null }
+  const year = groups?.year ? Number(groups.year) : null;
+  const day = groups?.day ? Number(groups.day) : null;
+
+  return { year, day };
 }
