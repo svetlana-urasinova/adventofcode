@@ -1,4 +1,4 @@
-import { input } from './input-example2.js';
+import { input } from './input.js';
 
 export function main() {
   const data = getInputData(input);
@@ -44,6 +44,8 @@ export function part2(data) {
 
     lowestLocation = Math.min(currentLowestLocation, lowestLocation);
   }
+
+  return lowestLocation;
 }
 
 export function getInputData(data) {
