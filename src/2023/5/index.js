@@ -8,7 +8,7 @@ export function main() {
 
   return `
         <p>The lowest location number is <span class="answer">${part1Answer}</span>.</p>        
-        <p>The lowest location number for rangees is <span class="answer">${part2Answer}</span>.</p>        
+        <p>The lowest location number for ranges is <span class="answer">${part2Answer}</span>.</p>        
     `;
 }
 
@@ -29,23 +29,77 @@ export function part2(data) {
 
   const seedRanges = getSeedRanges(seeds);
 
-  let lowestLocation = Infinity;
+  let ranges = [...rules[0]].map(rule => ({ ...rule, total: rule.shift }));
 
-  for (let i = 0; i < seedRanges.length; i++) {
-    let currentLowestLocation = lowestLocation;
+  for (let i = 1; i < rules.length; i++) {
+    const updatedRanges = [];
 
-    const { start, end } = seedRanges[i];
+    while (ranges.length > 0) {
+      const range = ranges.shift();
 
-    for (let j = start; j <= end; j++) {
-      const location = getLocation(j, rules);
+      const left = range.start + range.shift;
+      const right = range.end + range.shift;
 
-      currentLowestLocation = Math.min(location, currentLowestLocation);
+      let ruleFound = false;
+
+      for (let j = 0; j < rules[i].length; j++) {
+        const ruleRange = rules[i][j];
+
+        // range and ruleRange don't overlap
+        if (left > ruleRange.end || right < ruleRange.start) {
+          continue;
+        }
+
+        updatedRanges.push({
+          start: Math.max(left, ruleRange.start),
+          end: Math.min(right, ruleRange.end),
+          shift: ruleRange.shift,
+          total: range.total + ruleRange.shift,
+        });
+
+        // non-overlapping left part
+        if (left < ruleRange.start) {
+          ranges.push({ start: left, end: ruleRange.start - 1, shift: 0, total: range.total });
+        }
+
+        // non-overlapping right part
+        if (right > ruleRange.end) {
+          ranges.push({ start: ruleRange.end + 1, end: right, shift: 0, total: range.total });
+        }
+
+        ruleFound = true;
+
+        break;
+      }
+
+      if (!ruleFound) {
+        updatedRanges.push({ start: left, end: right, shift: 0, total: range.total });
+      }
     }
 
-    lowestLocation = Math.min(currentLowestLocation, lowestLocation);
+    ranges = updatedRanges;
   }
 
-  return lowestLocation;
+  // add the last shift
+  for (const range of ranges) {
+    range.start += range.shift;
+    range.end += range.shift;
+  }
+
+  const rangesMap = ranges.sort((a, b) => a.start - b.start);
+
+  for (const rangeMap of rangesMap) {
+    const start_origin = rangeMap.start - rangeMap.total;
+    const end_origin = rangeMap.end - rangeMap.total;
+
+    for (const seedRange of seedRanges) {
+      if (seedRange.end < start_origin || seedRange.start > end_origin) {
+        continue;
+      }
+
+      return getLocation(Math.max(seedRange.start, start_origin), rules);
+    }
+  }
 }
 
 export function getInputData(data) {
