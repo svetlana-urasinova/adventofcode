@@ -97,7 +97,7 @@ export function part2(data) {
         continue;
       }
 
-      return getLocation(Math.max(seedRange.start, start_origin), rules);
+      return rangeMap.start;
     }
   }
 }
