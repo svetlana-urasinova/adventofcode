@@ -87,22 +87,6 @@ export function getInputData(data) {
   return { instructions, nodes };
 }
 
-function processNodes(nodesToProcess, nodes, currentInstruction) {
-  const result = { toProcess: [], processed: [] };
-
-  for (let i = 0; i < nodesToProcess.length; i++) {
-    const currentNode = nodes[nodesToProcess[i]];
-
-    if (currentNode.value.endsWith('Z')) {
-      result.processed.push(currentNode.value);
-    } else {
-      result.toProcess.push(currentInstruction === 'L' ? currentNode.left : currentNode.right);
-    }
-  }
-
-  return result;
-}
-
 function findLCM(a, b) {
   return (a * b) / findGCD(a, b);
 }
