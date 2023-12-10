@@ -1,0 +1,14 @@
+import { part1, part2, getInputData } from './index.js';
+import { input } from './input-example.js';
+
+describe('2023-9', () => {
+  const data = getInputData(input);
+
+  test('part 1: should calculate the sum of the extrapolated future values', () => {
+    expect(part1(data)).toBe(114);
+  });
+
+  test('part 2: should calculate the sum of the extrapolated past values', () => {
+    expect(part2(data)).toBe(2);
+  });
+});

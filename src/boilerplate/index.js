@@ -1,4 +1,4 @@
-import { input } from './input.js';
+import { input } from './input-example.js';
 
 export function main() {
   const data = getInputData(input);
