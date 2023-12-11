@@ -44,6 +44,7 @@ import { main as day7of2023 } from './2023/7/index.js';
 import { main as day8of2023 } from './2023/8/index.js';
 import { main as day9of2023 } from './2023/9/index.js';
 import { main as day10of2023 } from './2023/10/index.js';
+import { main as day11of2023 } from './2023/11/index.js';
 
 export const pages = {
   2019: {
@@ -99,5 +100,6 @@ export const pages = {
     day8: () => day8of2023(),
     day9: () => day9of2023(),
     day10: () => day10of2023(),
+    day11: () => day11of2023(),
   },
 };
