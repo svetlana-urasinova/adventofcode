@@ -18,24 +18,26 @@ const currentDate = {
   day: null,
 };
 
+let pages = {};
+
 window.onload = async () => {
   const { year, day } = getPageDataFromUrl();
 
-  const pages = await loadPages();
+  pages = await loadPages();
 
   currentDate.year = year || Math.max(...Object.keys(pages));
   currentDate.day = day || 1;
 
-  initYearsSelectElement(pages);
+  initYearsSelectElement();
 
   if (location.hash) {
-    loadPage(pages, currentDate.day);
+    loadPage(currentDate.day);
   } else {
-    generateSidebarMenu(pages);
+    generateSidebarMenu();
   }
 };
 
-function initYearsSelectElement(pages) {
+function initYearsSelectElement() {
   const years = Object.keys(pages);
 
   for (const year of years) {
@@ -88,7 +90,7 @@ function sidebarItemClickHandler(day) {
   }
 }
 
-function generateSidebarMenu(pages) {
+function generateSidebarMenu() {
   const { year, day } = currentDate;
 
   const currentYearPages = pages[year];
@@ -103,13 +105,13 @@ function generateSidebarMenu(pages) {
   }
 }
 
-function loadPage(pages, currentDay) {
+function loadPage(currentDay) {
   const { year } = currentDate;
 
   const getPageContent = pages[year][currentDay];
 
   headerTitleYearElement.textContent = year;
-  generateSidebarMenu(pages);
+  generateSidebarMenu();
 
   if (getPageContent) {
     mainTitleElement.textContent = `Day ${currentDay}`;
