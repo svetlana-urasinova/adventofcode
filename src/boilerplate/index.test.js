@@ -1,7 +1,7 @@
 import { part1, part2, getInputData } from './index.js';
 import { input } from './input-example.js';
 
-describe('2023-%DAY%', () => {
+describe('2024-%DAY%', () => {
   const data = getInputData(input);
 
   test('part 1: %TEST_NAME%', () => {
