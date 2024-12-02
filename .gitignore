@@ -1,2 +1,3 @@
 node_modules
 src/*/*/input.js
+config.js

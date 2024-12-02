@@ -1,5 +1,5 @@
-import { links } from './links.js';
-import { pages } from './pages.js';
+import { ConfigValues, getConfigValue } from './utils/load-config.js';
+import { loadPages } from './utils/load-pages.js';
 
 const headerTitleYearElement = document.querySelector('.header-title-year');
 const mainElement = document.querySelector('.main');
@@ -18,22 +18,24 @@ const currentDate = {
   day: null,
 };
 
-window.onload = () => {
+window.onload = async () => {
   const { year, day } = getPageDataFromUrl();
+
+  const pages = await loadPages();
 
   currentDate.year = year || Math.max(...Object.keys(pages));
   currentDate.day = day || 1;
 
-  initYearsSelectElement();
+  initYearsSelectElement(pages);
 
   if (location.hash) {
-    loadPage(currentDate.day);
+    loadPage(pages, currentDate.day);
   } else {
-    generateSidebarMenu();
+    generateSidebarMenu(pages);
   }
 };
 
-function initYearsSelectElement() {
+function initYearsSelectElement(pages) {
   const years = Object.keys(pages);
 
   for (const year of years) {
@@ -86,7 +88,7 @@ function sidebarItemClickHandler(day) {
   }
 }
 
-function generateSidebarMenu() {
+function generateSidebarMenu(pages) {
   const { year, day } = currentDate;
 
   const currentYearPages = pages[year];
@@ -101,23 +103,23 @@ function generateSidebarMenu() {
   }
 }
 
-function loadPage(currentDay) {
+function loadPage(pages, currentDay) {
   const { year } = currentDate;
 
-  const getPageContent = pages[year][`day${currentDay}`];
+  const getPageContent = pages[year][currentDay];
 
   headerTitleYearElement.textContent = year;
-  generateSidebarMenu();
+  generateSidebarMenu(pages);
 
   if (getPageContent) {
     mainTitleElement.textContent = `Day ${currentDay}`;
     mainTitleElement.classList.remove('hidden');
 
-    const aocLink = `${links.aoc}${year}/day/${currentDay}`;
+    const aocLink = `${getConfigValue(ConfigValues.AocUrl)}${year}/day/${currentDay}`;
     mainSourceLinkToAocElement.textContent = aocLink;
     mainSourceLinkToAocElement.setAttribute('href', aocLink);
 
-    const githubLink = `${links.github}${year}/${currentDay}`;
+    const githubLink = `${getConfigValue(ConfigValues.GithubUrl)}${year}/${currentDay}`;
     mainSourceLinkToGithubElement.textContent = githubLink;
     mainSourceLinkToGithubElement.setAttribute('href', githubLink);
     mainSourceElement.classList.remove('hidden');
