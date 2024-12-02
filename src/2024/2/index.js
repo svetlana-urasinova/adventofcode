@@ -1,7 +1,7 @@
 import { input } from './input.js';
 
-const PART_1_MIN = 1;
-const PART_1_MAX = 3;
+const MIN_DIFF = 1;
+const MAX_DIFF = 3;
 
 export function main() {
   const data = getInputData(input);
@@ -11,32 +11,61 @@ export function main() {
 
   return `
         <p>Total amount of safe reports is <span class="answer">${part1Answer}</span>.</p>        
-        <p><span class="answer">${part2Answer}</span></p>        
+        <p>Total amount of safe reports with using the Problem Dampener is <span class="answer">${part2Answer}</span>.</p>        
     `;
 }
 
 export function part1(data) {
-  return data.reduce((total, report) => (isSafe(report) ? ++total : total), 0);
+  return data.reduce((total, report) => (isReportSafe(report) ? ++total : total), 0);
 }
 
 export function part2(data) {
-  return '';
+  return data.reduce((total, report) => (isReportSafe(report, true) ? ++total : total), 0);
 }
 
 export function getInputData(data) {
   return data.split('\n').map(line => line.split(/\s+/).map(el => +el));
 }
 
-function isSafe(report) {
-  const sign = Math.sign(report[1] - report[0]);
+function isReportSafe(report, tolerateOnce = false) {
+  let canSkip = tolerateOnce;
+
+  const reportSign = getReportSign(report);
 
   for (let i = 1; i < report.length; i++) {
-    const diff = report[i] - report[i - 1];
+    if (!isPairSafe(report, reportSign, i - 1, i)) {
+      if (!canSkip || (!canSkipElement(report, reportSign, i - 1) && !canSkipElement(report, reportSign, i))) {
+        return false;
+      }
 
-    if (Math.sign(diff) !== sign || Math.abs(diff) < PART_1_MIN || Math.abs(diff) > PART_1_MAX) {
-      return false;
+      i++;
+      canSkip = false;
     }
   }
 
   return true;
+}
+
+function getReportSign(report) {
+  // input doesn't contain any reports with length < 4 so we can skip such cases
+
+  const firstPairSign = Math.sign(report[1] - report[0]);
+
+  return firstPairSign === Math.sign(report[2] - report[1]) ? firstPairSign : Math.sign(report[3] - report[2]);
+}
+
+function isPairSafe(report, reportSign, firstIndex, secondIndex) {
+  if (report[firstIndex] === undefined || report[secondIndex] === undefined) {
+    return true;
+  }
+
+  const sign = Math.sign(report[secondIndex] - report[firstIndex]);
+
+  const diff = Math.abs(report[secondIndex] - report[firstIndex]);
+
+  return sign === reportSign && diff >= MIN_DIFF && diff <= MAX_DIFF;
+}
+
+function canSkipElement(report, reportSign, index) {
+  return isPairSafe(report, reportSign, index - 1, index + 1) && isPairSafe(report, reportSign, index + 1, index + 2);
 }
