@@ -6,11 +6,9 @@ export const ConfigValues = {
 };
 
 export function getConfigValue(key) {
-  const configValue = ConfigValues[key];
-
-  if (!Object.keys(ConfigValues).includes(key)) {
+  if (!Object.values(ConfigValues).includes(key)) {
     return null;
   }
 
-  return config[configValue] ?? null;
+  return config[key] ?? null;
 }
