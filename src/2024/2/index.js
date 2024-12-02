@@ -27,7 +27,7 @@ export function getInputData(data) {
   return data.split('\n').map(line => line.split(/\s+/).map(el => +el));
 }
 
-function isReportSafe(report, tolerateOnce = false) {
+export function isReportSafe(report, tolerateOnce = false) {
   let canSkip = tolerateOnce;
 
   const reportSign = getReportSign(report);
@@ -46,7 +46,7 @@ function isReportSafe(report, tolerateOnce = false) {
   return true;
 }
 
-function getReportSign(report) {
+export function getReportSign(report) {
   // input doesn't contain any reports with length < 4 so we can skip such cases
 
   const firstPairSign = Math.sign(report[1] - report[0]);
@@ -54,7 +54,7 @@ function getReportSign(report) {
   return firstPairSign === Math.sign(report[2] - report[1]) ? firstPairSign : Math.sign(report[3] - report[2]);
 }
 
-function isPairSafe(report, reportSign, firstIndex, secondIndex) {
+export function isPairSafe(report, reportSign, firstIndex, secondIndex) {
   if (report[firstIndex] === undefined || report[secondIndex] === undefined) {
     return true;
   }
@@ -66,6 +66,6 @@ function isPairSafe(report, reportSign, firstIndex, secondIndex) {
   return sign === reportSign && diff >= MIN_DIFF && diff <= MAX_DIFF;
 }
 
-function canSkipElement(report, reportSign, index) {
+export function canSkipElement(report, reportSign, index) {
   return isPairSafe(report, reportSign, index - 1, index + 1) && isPairSafe(report, reportSign, index + 1, index + 2);
 }
