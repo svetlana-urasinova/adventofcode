@@ -1,4 +1,4 @@
-import { input } from './input-example.js';
+import { input } from './input.js';
 
 export function main() {
   const data = getInputData(input);
@@ -7,13 +7,13 @@ export function main() {
   const part2Answer = part2(data);
 
   return `
-        <p><span class="answer">${part1Answer}</span></p>        
+        <p><span class="answer">Sum of all multiplications is ${part1Answer}</span>.</p>        
         <p><span class="answer">${part2Answer}</span></p>        
     `;
 }
 
 export function part1(data) {
-  return '';
+  return data.reduce((sum, pair) => sum + pair[0] * pair[1], 0);
 }
 
 export function part2(data) {
@@ -21,5 +21,7 @@ export function part2(data) {
 }
 
 export function getInputData(data) {
-  return data;
+  const instructions = data.match(/mul\(\d+,\d+\)/g);
+
+  return instructions.map(instruction => instruction.match(/\d+/g).map(el => +el));
 }
