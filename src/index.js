@@ -117,11 +117,11 @@ function loadPage(currentDay) {
     mainTitleElement.textContent = `Day ${currentDay}`;
     mainTitleElement.classList.remove('hidden');
 
-    const aocLink = `${getConfigValue(ConfigValues.AocUrl)}${year}/day/${currentDay}`;
+    const aocLink = `${getConfigValue(ConfigValues.AocUrl)}/${year}/day/${currentDay}`;
     mainSourceLinkToAocElement.textContent = aocLink;
     mainSourceLinkToAocElement.setAttribute('href', aocLink);
 
-    const githubLink = `${getConfigValue(ConfigValues.GithubUrl)}${year}/${currentDay}`;
+    const githubLink = `${getConfigValue(ConfigValues.GithubUrl)}/${year}/${currentDay}`;
     mainSourceLinkToGithubElement.textContent = githubLink;
     mainSourceLinkToGithubElement.setAttribute('href', githubLink);
     mainSourceElement.classList.remove('hidden');
