@@ -13,9 +13,9 @@ export const INSTRUCTIONS = {
   },
 };
 
-const ARGS_START_CHAR = '(';
-const ARGS_END_CHAR = ')';
-const ARGS_SEPARATOR_CHAR = ',';
+export const ARGS_START_CHAR = '(';
+export const ARGS_END_CHAR = ')';
+export const ARGS_SEPARATOR_CHAR = ',';
 
 export function main() {
   const part1Answer = part1(input);
@@ -75,7 +75,7 @@ function parse(input, enabledOnly = false) {
   return result;
 }
 
-export function parseInstruction(instructions, input, start) {
+function parseInstruction(instructions, input, start) {
   for (const instruction of instructions) {
     const { name, argsNumber } = instruction;
 
@@ -86,7 +86,7 @@ export function parseInstruction(instructions, input, start) {
     const parseResult = parseInstructionArgs(input, start + name.length, argsNumber);
 
     if (parseResult) {
-      return { ...parseResult, instruction };
+      return { args: parseResult.args, shift: name.length + parseResult.shift - 1, instruction };
     }
   }
 }
@@ -103,7 +103,7 @@ function parseInstructionArgs(input, start, argsNumber) {
   counter++;
 
   if (!argsNumber) {
-    return input[counter] === ARGS_END_CHAR ? { args, shift: counter - start } : null;
+    return input[counter] === ARGS_END_CHAR ? { args, shift: counter - start + 1 } : null;
   }
 
   for (let i = 0; i < argsNumber; i++) {
@@ -126,9 +126,7 @@ function parseInstructionArgs(input, start, argsNumber) {
       return null;
     }
 
-    if (!isLastIteration) {
-      counter++;
-    }
+    counter++;
   }
 
   return { args, shift: counter - start };
