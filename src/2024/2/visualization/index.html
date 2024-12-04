@@ -4,23 +4,32 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>2024-2</title>
+    <link rel="stylesheet" href="../../../vizualisation/display/display.css" />
+    <link rel="stylesheet" href="../../../vizualisation/colors/colors.css" />
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <main>
       <div class="displays">
         <div class="display" id="display1">
-          <h1 class="header">⭐</h1>
-          <div class="total" id="total1"></div>
-          <div class="current" id="current1"></div>
+          <h1 class="display-header">⭐</h1>
+          <div class="display-content">
+            <div class="total">0</div>
+            <div class="current"></div>
+          </div>
         </div>
         <div class="display" id="display2">
-          <h1 class="header">⭐⭐</h1>
-          <div class="total" id="total2"></div>
-          <div class="current" id="current2"></div>
+          <h1 class="display-header">⭐⭐</h1>
+          <div class="display-content">
+            <div class="total">0</div>
+            <div class="current" id="current2"></div>
+          </div>
         </div>
       </div>
     </main>
   </body>
+  <template id="number-template">
+    <div class="number"></div>
+  </template>
   <script src="./index.js" type="module"></script>
 </html>

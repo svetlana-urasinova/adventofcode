@@ -1,49 +1,22 @@
-.displays {
-  display: flex;
-  gap: 20px;
-  padding: 100px;
+.display {
+  height: 200px;
+  width: 300px;
 
-  .display {
-    background: #222;
-    background: linear-gradient(-45deg, #444 0%, #000 40%, #222 60%, #444 85%);
-    border: 10px solid goldenrod;
-    border-radius: 20px;
-    font-family: 'Courier New', Courier, monospace;
+  .total {
+    color: gold;
+    font-size: 100px;
     font-weight: bold;
-    height: 200px;
-    padding: 10px;
-    width: 300px;
-    text-align: center;
+  }
 
-    .header {
-      color: goldenrod;
-      font-size: 36px;
-      margin: 10px;
-    }
+  .current {
+    color: var(--green);
 
-    .total {
-      color: gold;
-      font-size: 100px;
-    }
+    .numbers {
+      display: flex;
+      justify-content: center;
 
-    .current {
-      color: greenyellow;
-
-      .numbers {
-        display: flex;
-        justify-content: center;
-
-        &.unsafe {
-          color: red;
-        }
-
-        .number {
-          padding: 5px;
-
-          &.skipped {
-            color: red;
-          }
-        }
+      .number {
+        padding: 5px;
       }
     }
   }

@@ -1,73 +1,56 @@
+import { delay } from '../../../utils/delay.js';
+import { Display } from '../../../vizualisation/display/display.js';
 import { input } from '../input.js';
 import { getInputData, getReportSign, isPairSafe, canSkipElement } from './../index.js';
 
-const timeout = 100;
+const timeout = 200;
 
-const display1Element = document.querySelector('#display1');
-const display2Element = document.querySelector('#display2');
+const display1 = new Display('#display1');
+const display2 = new Display('#display2');
 
-const total1Element = display1Element.querySelector('#total1');
-const total2Element = display2Element.querySelector('#total2');
+const TOTAL_ELEMENT_SELECTOR = '.total';
+const CURRENT_ELEMENT_SELECTOR = '.current';
 
-const current1Element = display1Element.querySelector('#current1');
-const current2Element = display2Element.querySelector('#current2');
-
-window.onload = () => {
-  let i = 0;
-
-  let total1 = 0;
-  let total2 = 0;
-
+window.onload = async () => {
   const data = getInputData(input);
 
-  const timerId = setInterval(() => {
-    const result1 = isReportSafe(data[i]);
-    const result2 = isReportSafe(data[i], true);
+  for (let i = 0; i < data.length; i++) {
+    await delay(timeout);
 
-    if (result1.isSafe) {
-      total1++;
-    }
+    updateDisplay(display1, data[i], false);
+    updateDisplay(display2, data[i], true);
+  }
 
-    if (result2.isSafe) {
-      total2++;
-    }
-
-    total1Element.textContent = total1;
-    total2Element.textContent = total2;
-
-    current1Element.innerHTML = '';
-    current1Element.appendChild(getCurrentElement(data[i], result1.isSafe));
-
-    current2Element.innerHTML = '';
-    current2Element.appendChild(getCurrentElement(data[i], result2.isSafe, result2.skip));
-
-    i++;
-
-    if (i === data.length) {
-      current1Element.innerHTML = '';
-      current2Element.innerHTML = '';
-
-      clearInterval(timerId);
-    }
-  }, timeout);
+  display1.clearElement(CURRENT_ELEMENT_SELECTOR);
+  display2.clearElement(CURRENT_ELEMENT_SELECTOR);
 };
 
-function getCurrentElement(report, isSafe, skipIndex) {
+function updateDisplay(display, report, tolerateOnce) {
+  const result = isReportSafe(report, tolerateOnce);
+
+  if (result.isSafe) {
+    const total = Number(display.getElementContent(TOTAL_ELEMENT_SELECTOR));
+
+    display.updateElement(total + 1, TOTAL_ELEMENT_SELECTOR);
+  }
+
+  const currentContent = buildCurrentContent(report, result.isSafe, result.skip);
+
+  display.updateElement(currentContent, CURRENT_ELEMENT_SELECTOR);
+}
+
+function buildCurrentContent(report, isSafe, skipIndex) {
+  const template = document.getElementById('number-template');
+
   const container = document.createElement('div');
 
   container.classList.add('numbers');
 
-  if (!isSafe) {
-    container.classList.add('unsafe');
-  }
-
   for (let i = 0; i < report.length; i++) {
-    const numberElement = document.createElement('div');
+    const numberElement = template.content.cloneNode(true).firstElementChild;
 
-    numberElement.classList.add('number');
-
-    if (i === skipIndex) {
-      numberElement.classList.add('skipped');
+    if (!isSafe || i === skipIndex) {
+      numberElement.classList.add('red');
     }
 
     numberElement.textContent = report[i];

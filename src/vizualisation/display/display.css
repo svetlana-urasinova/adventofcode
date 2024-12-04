@@ -6,14 +6,12 @@
 
   .display {
     background: #444;
-    background: linear-gradient(-45deg, #555 0%, #404040 25%, #333 50%, #404040 75%, #555 100%);
+    background: linear-gradient(-45deg, #444 0%, #404040 25%, #3a3a3a 50%, #404040 75%, #444 100%);
     border: 10px solid goldenrod;
     border-radius: 20px;
     font-family: 'Courier New', Courier, monospace;
     font-size: 12px;
-    height: 200px;
     padding: 20px;
-    width: 300px;
     text-align: center;
 
     .display-header {
