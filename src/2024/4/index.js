@@ -1,15 +1,7 @@
+import { Matrix } from '../../classes/matrix.js';
+import { DIRECTIONS } from '../../constants/directions.js';
+import { getNeighborCoordinates } from '../../utils/get-neighbor-coordinates.js';
 import { input } from './input.js';
-
-const DIRECTIONS = {
-  Top: 'top',
-  Bottom: 'bottom',
-  Left: 'left',
-  LeftTop: 'left-top',
-  LeftBottom: 'left-bottom',
-  Right: 'right',
-  RightTop: 'right-top',
-  RightBottom: 'right-bottom',
-};
 
 export function main() {
   const data = getInputData(input);
@@ -24,13 +16,15 @@ export function main() {
 }
 
 export function part1(data) {
+  const matrix = new Matrix(data);
+
   const search = 'XMAS';
 
   let total = 0;
 
-  for (let i = 0; i < data.length; i++) {
-    for (let j = 0; j < data[i].length; j++) {
-      total += checkMatch({ row: i, column: j }, data, search).length;
+  for (let i = 0; i < matrix.getHeight(); i++) {
+    for (let j = 0; j < matrix.getWidth(); j++) {
+      total += checkMatchByAnyDirection({ row: i, column: j }, search, matrix).length;
     }
   }
 
@@ -38,13 +32,15 @@ export function part1(data) {
 }
 
 export function part2(data) {
+  const matrix = new Matrix(data);
+
   const search = 'MAS';
 
   let total = 0;
 
-  for (let i = 0; i < data.length; i++) {
-    for (let j = 0; j < data[i].length; j++) {
-      if (checkDiagonalMatch({ row: i, column: j }, data, search)) {
+  for (let i = 0; i < matrix.getHeight(); i++) {
+    for (let j = 0; j < matrix.getWidth(); j++) {
+      if (checkDiagonalMatch({ row: i, column: j }, search, matrix)) {
         total++;
       }
     }
@@ -57,14 +53,11 @@ export function getInputData(data) {
   return data.split('\n').map(line => line.split(''));
 }
 
-function checkMatch(coordinates, matrix, search) {
-  // Checks if a given string can be found in the matrix
-  // starting from the specified coordinates in any direction
-
-  return Object.values(DIRECTIONS).filter(direction => checkDirection(direction, coordinates, matrix, search));
+export function checkMatchByAnyDirection(coordinates, search, matrix) {
+  return Object.values(DIRECTIONS).filter(direction => matrix.checkMatch(direction, coordinates, search));
 }
 
-function checkDiagonalMatch(coordinates, matrix, search) {
+export function checkDiagonalMatch(coordinates, search, matrix) {
   // Checks if a given string can be found in the matrix
   // along both diagonals passing through the specified coordinates
   // using those coordinates as the center
@@ -72,86 +65,12 @@ function checkDiagonalMatch(coordinates, matrix, search) {
   const mid = Math.floor(search.length / 2);
 
   if (
-    checkDirection(
-      DIRECTIONS.RightBottom,
-      getNeighborCoordinates(DIRECTIONS.LeftTop, coordinates, mid),
-      matrix,
-      search
-    ) ||
-    checkDirection(DIRECTIONS.LeftTop, getNeighborCoordinates(DIRECTIONS.RightBottom, coordinates, mid), matrix, search)
+    matrix.checkMatch(DIRECTIONS.RightBottom, getNeighborCoordinates(DIRECTIONS.LeftTop, coordinates, mid), search) ||
+    matrix.checkMatch(DIRECTIONS.LeftTop, getNeighborCoordinates(DIRECTIONS.RightBottom, coordinates, mid), search)
   ) {
     return (
-      checkDirection(
-        DIRECTIONS.LeftBottom,
-        getNeighborCoordinates(DIRECTIONS.RightTop, coordinates, mid),
-        matrix,
-        search
-      ) ||
-      checkDirection(
-        DIRECTIONS.RightTop,
-        getNeighborCoordinates(DIRECTIONS.LeftBottom, coordinates, mid),
-        matrix,
-        search
-      )
+      matrix.checkMatch(DIRECTIONS.LeftBottom, getNeighborCoordinates(DIRECTIONS.RightTop, coordinates, mid), search) ||
+      matrix.checkMatch(DIRECTIONS.RightTop, getNeighborCoordinates(DIRECTIONS.LeftBottom, coordinates, mid), search)
     );
   }
-}
-
-function checkDirection(direction, coordinates, matrix, search) {
-  // Checks if a given string can be found in the matrix,
-  // starting from the specified coordinates,
-  // moving in the specified direction
-
-  let str = getChar(coordinates, matrix);
-
-  if (!str || !search.startsWith(str)) {
-    return false;
-  }
-
-  let currentCoordinates = { ...coordinates };
-
-  for (let i = 1; i < search.length; i++) {
-    currentCoordinates = getNeighborCoordinates(direction, currentCoordinates);
-
-    const currentChar = getChar(currentCoordinates, matrix);
-
-    if (!currentChar) {
-      return false;
-    }
-
-    str += currentChar;
-
-    if (!search.startsWith(str)) {
-      return false;
-    }
-  }
-
-  return str === search;
-}
-
-function getNeighborCoordinates(direction, coordinates, shift = 1) {
-  const { row, column } = coordinates;
-
-  switch (direction) {
-    case DIRECTIONS.Top:
-      return { row: row - shift, column };
-    case DIRECTIONS.Bottom:
-      return { row: row + shift, column };
-    case DIRECTIONS.Left:
-      return { row, column: column - shift };
-    case DIRECTIONS.LeftTop:
-      return { row: row - shift, column: column - shift };
-    case DIRECTIONS.LeftBottom:
-      return { row: row + shift, column: column - shift };
-    case DIRECTIONS.Right:
-      return { row: row, column: column + shift };
-    case DIRECTIONS.RightTop:
-      return { row: row - shift, column: column + shift };
-    case DIRECTIONS.RightBottom:
-      return { row: row + shift, column: column + shift };
-  }
-}
-
-function getChar(coordinates, matrix) {
-  return matrix[coordinates.row]?.[coordinates.column];
 }
