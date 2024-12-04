@@ -7,8 +7,8 @@ export function main() {
   const part2Answer = part2(data);
 
   return `
-        <p><span class="answer">A total distance between the left and the right lists is ${part1Answer}</span>.</p>        
-        <p><span class="answer">A total similarity score between the left and the right lists is ${part2Answer}</span>.</p>        
+        <p>A total distance between the left and the right lists is <span class="answer">${part1Answer}</span>.</p>        
+        <p>A total similarity score between the left and the right lists is <span class="answer">${part2Answer}</span>.</p>        
     `;
 }
 

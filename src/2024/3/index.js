@@ -22,8 +22,8 @@ export function main() {
   const part2Answer = part2(input);
 
   return `
-        <p><span class="answer">Sum of all multiplications is ${part1Answer}</span>.</p>        
-        <p><span class="answer">Sum of only enabled multiplications is ${part2Answer}</span>.</p>        
+        <p>Sum of all multiplications is <span class="answer">${part1Answer}</span>.</p>        
+        <p>Sum of only enabled multiplications is <span class="answer">${part2Answer}</span>.</p>        
     `;
 }
 

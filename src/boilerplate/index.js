@@ -7,17 +7,17 @@ export function main() {
   const part2Answer = part2(data);
 
   return `
-        <p><span class="answer">${part1Answer}</span></p>        
-        <p><span class="answer">${part2Answer}</span></p>        
+        <p>Answer to part 1: <span class="answer">${part1Answer}</span></p>        
+        <p>Answer to part 2: <span class="answer">${part2Answer}</span></p>        
     `;
 }
 
 export function part1(data) {
-  return '';
+  return '(answer)';
 }
 
 export function part2(data) {
-  return '';
+  return '(answer)';
 }
 
 export function getInputData(data) {
