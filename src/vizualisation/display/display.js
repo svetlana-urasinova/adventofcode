@@ -5,7 +5,7 @@ export class Display {
     this._contentElement = document.querySelector(selector)?.querySelector('.display-content');
 
     if (!this._contentElement) {
-      throw new Error(`No display element for selector "${selector}" is found.`);
+      throw new Error(`[Display] No element for selector "${selector}" is found.`);
     }
   }
 
@@ -31,7 +31,7 @@ export class Display {
     const element = selector ? this._contentElement.querySelector(selector) : this._contentElement;
 
     if (selector && !element) {
-      throw new Error(`Cannot find element for selector ${selector}`);
+      throw new Error(`[Display] Cannot find element for selector ${selector}`);
     }
 
     return element;

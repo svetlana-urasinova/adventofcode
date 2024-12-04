@@ -4,11 +4,15 @@ export class Matrix {
   _data = [];
 
   constructor(data) {
-    this._data = data;
-
-    if (!this._data) {
-      throw new Error(`Empty matrix is not allowed`);
+    if (!data) {
+      throw new Error(`[Matrix] Empty matrix is not allowed`);
     }
+
+    if (!Array.isArray(data) || data.some(line => !Array.isArray(line))) {
+      throw new Error(`[Matrix] Invalid matrix: should be a 2-dimensional array`);
+    }
+
+    this._data = data;
   }
 
   getElement(coordinates) {
@@ -27,6 +31,10 @@ export class Matrix {
 
   getHeight() {
     return this._data.length;
+  }
+
+  getIndexByCoordinates(coordinates) {
+    return coordinates.row * this.getWidth() + coordinates.column;
   }
 
   checkMatch(direction, coordinates, search) {
