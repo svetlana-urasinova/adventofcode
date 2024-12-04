@@ -83,5 +83,51 @@
 
   &.black {
     background-color: var(--black);
+    color: white;
+  }
+}
+
+.blink {
+  animation: blink 500ms ease-in-out 2 forwards;
+
+  .red {
+    --blink-color: var(--red);
+  }
+
+  .orange {
+    --blink-color: var(--orange);
+  }
+
+  .yellow {
+    --blink-color: var(--yellow);
+  }
+
+  .green {
+    --blink-color: var(--green);
+  }
+
+  .light-blue {
+    --blink-color: var(--light-blue);
+  }
+
+  .blue {
+    --blink-color: var(--blue);
+  }
+
+  .purple {
+    --blink-color: var(--purple);
+  }
+
+  .white {
+    --blink-color: var(--white);
+  }
+}
+
+@keyframes blink {
+  0% {
+    background-color: var(--blink-color);
+  }
+  50% {
+    background-color: transparent;
   }
 }

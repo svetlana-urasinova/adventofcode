@@ -67,6 +67,21 @@ export class ColoredTextBlock {
     }
   }
 
+  blink(color, start, end = start) {
+    for (let i = start; i <= end; i++) {
+      const char = this.getChar(i);
+
+      if (!char) {
+        continue;
+      }
+
+      this.cleanChar(i);
+
+      char.classList.add(color);
+      char.classList.add('blink');
+    }
+  }
+
   goToNextChar(index, color = COLORS.White) {
     if (index > 0) {
       this.cleanChar(index - 1, color);
