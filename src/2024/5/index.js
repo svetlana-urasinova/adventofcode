@@ -1,4 +1,4 @@
-import { input } from './input-example.js';
+import { input } from './input.js';
 
 export function main() {
   const data = getInputData(input);
@@ -7,8 +7,8 @@ export function main() {
   const part2Answer = part2(data);
 
   return `
-        <p>Answer to part 1: <span class="answer">${part1Answer}</span></p>        
-        <p>Answer to part 2: <span class="answer">${part2Answer}</span></p>        
+        <p>The sum of the middle page numbers from the correctly ordered updates is <span class="answer">${part1Answer}</span>.</p>        
+        <p>The sum of the middle page numbers from the incorrectly ordered updates after ordering them correctly is <span class="answer">${part2Answer}</span>.</p>        
     `;
 }
 
@@ -19,7 +19,12 @@ export function part1(data) {
 }
 
 export function part2(data) {
-  return '(answer)';
+  const { rules, updates } = data;
+
+  return updates
+    .filter(update => !isUpdateValid(update, rules))
+    .map(update => sortNumbers(update, rules))
+    .reduce((sum, update) => sum + getMiddle(update), 0);
 }
 
 export function getInputData(data) {

@@ -8,7 +8,7 @@ describe('2024-5', () => {
     expect(part1(data)).toBe(143);
   });
 
-  test('part 2: %TEST_NAME%', () => {
-    // expect(part2(data)).toBe();
+  test('part 2: should calculate the sum of the middle page numbers from the incorrectly ordered updates after ordering them correctly', () => {
+    expect(part2(data)).toBe(123);
   });
 });
