@@ -1,6 +1,7 @@
-import { input } from './input-example.js';
+import { input } from './input.js';
 import { Matrix } from './../../classes/matrix.js';
 import { DIRECTIONS } from '../../constants/directions.js';
+import { turnClockwise } from '../../utils/directions.js';
 import { getNeighborCoordinates } from '../../utils/get-neighbor-coordinates.js';
 
 const GUARD = {
@@ -11,6 +12,7 @@ const GUARD = {
 };
 
 const OBSTACLE = '#';
+const NEW_OBSTACLE = 'o';
 const EMPTY = '.';
 
 export function main() {
@@ -19,16 +21,14 @@ export function main() {
 
   return `
         <p>The guard will visit <span class="answer">${part1Answer}</span> distinct positions.</p>        
-        <p>Answer to part 2: <span class="answer">${part2Answer}</span>.</p>        
+        <p>The number of possible infinite loops is <span class="answer">${part2Answer}</span>.</p>        
     `;
 }
 
 export function part1(input) {
   const matrix = getInputData(input);
 
-  let guardPosition = getInitialGuardPosition(matrix);
-
-  makeGuardMove(guardPosition, matrix);
+  makeGuardMove(matrix);
 
   let total = 0;
 
@@ -44,17 +44,39 @@ export function part1(input) {
 }
 
 export function part2(input) {
-  // const matrix = getInputData(input);
-  // let guardPosition = getInitialGuardPosition(matrix);
-  // let total = 0;
-  // for (let i = 0; i < matrix.getWidth() * matrix.getHeight(); i++) {
-  //   const newObstacleCoordinates = matrix.getCoordinatesByIndex(i);
-  //   const { value } = matrix.getElement(newObstacleCoordinates);
-  //   if (value !== EMPTY) {
-  //     continue;
-  //   }
-  //   matrix.updateValue(newObstacleCoordinates, OBSTACLE);
-  // }
+  console.time();
+
+  const matrix = getInputData(input);
+
+  let total = 0;
+
+  for (let i = 0; i < matrix.getWidth() * matrix.getHeight(); i++) {
+    const newObstacleCoordinates = matrix.getCoordinatesByIndex(i);
+
+    const { value } = matrix.getElement(newObstacleCoordinates);
+
+    if (value !== EMPTY) {
+      continue;
+    }
+
+    try {
+      matrix.updateValue(newObstacleCoordinates, NEW_OBSTACLE);
+
+      makeGuardMove(matrix);
+    } catch (error) {
+      total++;
+    } finally {
+      // reseting the matrix
+
+      matrix.updateValue(newObstacleCoordinates, EMPTY);
+
+      matrix.clearAllData();
+    }
+  }
+
+  console.timeEnd();
+
+  return total;
 }
 
 export function getInputData(input) {
@@ -63,8 +85,8 @@ export function getInputData(input) {
   return new Matrix(data);
 }
 
-function makeGuardMove(guardPosition, matrix) {
-  let position = { ...guardPosition };
+function makeGuardMove(matrix) {
+  let position = getInitialGuardPosition(matrix);
 
   while (true) {
     position = updateGuardPosition(position, matrix);
@@ -83,12 +105,12 @@ function getInitialGuardPosition(matrix) {
       )?.[0];
 
       if (guardDirection) {
-        return { row, column, direction: guardDirection, visitedBefore: false };
+        return { row, column, direction: guardDirection };
       }
     }
   }
 
-  throw new Error(`Cannot determine guard's position!`);
+  throw new Error(`Cannot determine guard's initial position!`);
 }
 
 function updateGuardPosition(guardPosition, matrix) {
@@ -102,7 +124,11 @@ function updateGuardPosition(guardPosition, matrix) {
     return null;
   }
 
-  if (target.value === OBSTACLE) {
+  if (target.data.visited?.includes(direction)) {
+    throw new Error('Oh no, the guard got in the infinite loop!');
+  }
+
+  if (isObstacle(target.value)) {
     return { row, column, direction: turnClockwise(direction) };
   } else {
     matrix.updateData(targetCoordinates, { visited: [...(target.data.visited || []), direction] });
@@ -111,31 +137,6 @@ function updateGuardPosition(guardPosition, matrix) {
   }
 }
 
-function turnClockwise(direction) {
-  switch (direction) {
-    case DIRECTIONS.Up:
-      return DIRECTIONS.Right;
-    case DIRECTIONS.Right:
-      return DIRECTIONS.Down;
-    case DIRECTIONS.Down:
-      return DIRECTIONS.Left;
-    case DIRECTIONS.Left:
-      return DIRECTIONS.Up;
-    default:
-      throw new Error('Unsupported direction');
-  }
-}
-
-function printMatrix(matrix) {
-  for (let row = 0; row < matrix.getHeight(); row++) {
-    let str = '';
-
-    for (let column = 0; column < matrix.getWidth(); column++) {
-      const element = matrix.getElement({ row, column });
-
-      str += element.data.visited ? 'X' : element.value;
-    }
-
-    console.log(str);
-  }
+function isObstacle(value) {
+  return value === OBSTACLE || value === NEW_OBSTACLE;
 }

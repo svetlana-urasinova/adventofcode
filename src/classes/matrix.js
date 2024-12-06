@@ -51,6 +51,14 @@ export class Matrix {
     this._matrix[row][column].data = data;
   }
 
+  clearAllData() {
+    for (let row = 0; row < this.getHeight(); row++) {
+      for (let column = 0; column < this.getWidth(); column++) {
+        this._matrix[row][column].data = {};
+      }
+    }
+  }
+
   getWidth() {
     return this._matrix[0]?.length;
   }

@@ -1,6 +1,7 @@
 import { Matrix } from '../../../classes/matrix.js';
-import { DIRECTIONS, getColorByDirection } from '../../../constants/directions.js';
+import { DIRECTIONS } from '../../../constants/directions.js';
 import { delay } from '../../../utils/delay.js';
+import { getColorByDirection } from '../../../utils/directions.js';
 import { getNeighborCoordinates } from '../../../utils/get-neighbor-coordinates.js';
 import { ColoredTextBlock } from '../../../vizualisation/colored-text-block/colored-text-block.js';
 import { COLORS } from '../../../vizualisation/colors/colors.js';
