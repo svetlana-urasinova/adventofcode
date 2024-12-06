@@ -1,4 +1,4 @@
-import { input } from './input.js';
+import { input } from './input-example.js';
 import { Matrix } from './../../classes/matrix.js';
 import { DIRECTIONS } from '../../constants/directions.js';
 import { getNeighborCoordinates } from '../../utils/get-neighbor-coordinates.js';
@@ -11,12 +11,11 @@ const GUARD = {
 };
 
 const OBSTACLE = '#';
+const EMPTY = '.';
 
 export function main() {
-  const data = getInputData(input);
-
-  const part1Answer = part1(data);
-  const part2Answer = part2(data);
+  const part1Answer = part1(input);
+  const part2Answer = part2(input);
 
   return `
         <p>The guard will visit <span class="answer">${part1Answer}</span> distinct positions.</p>        
@@ -24,40 +23,56 @@ export function main() {
     `;
 }
 
-export function part1(matrix) {
+export function part1(input) {
+  const matrix = getInputData(input);
+
   let guardPosition = getInitialGuardPosition(matrix);
+
+  makeGuardMove(guardPosition, matrix);
 
   let total = 0;
 
-  while (true) {
-    guardPosition = updateGuardPosition(guardPosition, matrix);
+  for (let i = 0; i < matrix.getWidth() * matrix.getHeight(); i++) {
+    const coordinates = matrix.getCoordinatesByIndex(i);
 
-    if (!guardPosition) {
-      // printMatrix(matrix);
-
-      return total;
-    }
-
-    const coordinates = { row: guardPosition.row, column: guardPosition.column };
-
-    const { data } = matrix.getElement(coordinates);
-
-    if (!data.visited) {
-      matrix.updateData(coordinates, { visited: true });
-
+    if (!!matrix.getElement(coordinates).data.visited) {
       total++;
     }
   }
+
+  return total;
 }
 
-export function part2(data) {
-  return '(answer)';
+export function part2(input) {
+  // const matrix = getInputData(input);
+  // let guardPosition = getInitialGuardPosition(matrix);
+  // let total = 0;
+  // for (let i = 0; i < matrix.getWidth() * matrix.getHeight(); i++) {
+  //   const newObstacleCoordinates = matrix.getCoordinatesByIndex(i);
+  //   const { value } = matrix.getElement(newObstacleCoordinates);
+  //   if (value !== EMPTY) {
+  //     continue;
+  //   }
+  //   matrix.updateValue(newObstacleCoordinates, OBSTACLE);
+  // }
 }
 
 export function getInputData(input) {
   const data = input.split('\n').map(line => line.split(''));
 
   return new Matrix(data);
+}
+
+function makeGuardMove(guardPosition, matrix) {
+  let position = { ...guardPosition };
+
+  while (true) {
+    position = updateGuardPosition(position, matrix);
+
+    if (!position) {
+      return;
+    }
+  }
 }
 
 function getInitialGuardPosition(matrix) {
@@ -87,9 +102,13 @@ function updateGuardPosition(guardPosition, matrix) {
     return null;
   }
 
-  return target.value === OBSTACLE
-    ? { row, column, direction: turnClockwise(direction), visitedBefore: !!target.data.visited }
-    : { ...targetCoordinates, direction, visitedBefore: !!target.data.visited };
+  if (target.value === OBSTACLE) {
+    return { row, column, direction: turnClockwise(direction) };
+  } else {
+    matrix.updateData(targetCoordinates, { visited: [...(target.data.visited || []), direction] });
+
+    return { ...targetCoordinates, direction };
+  }
 }
 
 function turnClockwise(direction) {

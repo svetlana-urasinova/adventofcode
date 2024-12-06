@@ -31,6 +31,16 @@ export class Matrix {
     return this.getElement(neighborCoordinates);
   }
 
+  updateValue(coordinates, value) {
+    const { row, column } = coordinates;
+
+    if (!this._matrix[row]?.[column]) {
+      throw new Error(`Cannot update data: element [${(row, column)}] doesn't exist.`);
+    }
+
+    this._matrix[row][column].value = value;
+  }
+
   updateData(coordinates, data) {
     const { row, column } = coordinates;
 
@@ -51,6 +61,12 @@ export class Matrix {
 
   getIndexByCoordinates(coordinates) {
     return coordinates.row * this.getWidth() + coordinates.column;
+  }
+
+  getCoordinatesByIndex(index) {
+    const width = this.getWidth();
+
+    return { row: Math.floor(index / width), column: index % width };
   }
 
   checkMatch(direction, coordinates, search) {
