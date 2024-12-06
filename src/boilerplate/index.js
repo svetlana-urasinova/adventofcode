@@ -20,6 +20,6 @@ export function part2(data) {
   return '(answer)';
 }
 
-export function getInputData(data) {
-  return data;
+export function getInputData(input) {
+  return input;
 }
