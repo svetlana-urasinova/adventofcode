@@ -28,19 +28,7 @@ export function main() {
 export function part1(input) {
   const matrix = getInputData(input);
 
-  makeGuardMove(matrix);
-
-  let total = 0;
-
-  for (let i = 0; i < matrix.getWidth() * matrix.getHeight(); i++) {
-    const coordinates = matrix.getCoordinatesByIndex(i);
-
-    if (!!matrix.getElement(coordinates).data.visited) {
-      total++;
-    }
-  }
-
-  return total;
+  return getPathWithoutExtraObstacles(matrix).length;
 }
 
 export function part2(input) {
@@ -48,19 +36,19 @@ export function part2(input) {
 
   const matrix = getInputData(input);
 
+  const path = getPathWithoutExtraObstacles(matrix);
+
   let total = 0;
 
-  for (let i = 0; i < matrix.getWidth() * matrix.getHeight(); i++) {
-    const newObstacleCoordinates = matrix.getCoordinatesByIndex(i);
-
-    const { value } = matrix.getElement(newObstacleCoordinates);
+  for (const coordinates of path) {
+    const { value } = matrix.getElement(coordinates);
 
     if (value !== EMPTY) {
       continue;
     }
 
     try {
-      matrix.updateValue(newObstacleCoordinates, NEW_OBSTACLE);
+      matrix.updateValue(coordinates, NEW_OBSTACLE);
 
       makeGuardMove(matrix);
     } catch (error) {
@@ -68,7 +56,7 @@ export function part2(input) {
     } finally {
       // reseting the matrix
 
-      matrix.updateValue(newObstacleCoordinates, EMPTY);
+      matrix.updateValue(coordinates, EMPTY);
 
       matrix.clearAllData();
     }
@@ -139,4 +127,22 @@ function updateGuardPosition(guardPosition, matrix) {
 
 function isObstacle(value) {
   return value === OBSTACLE || value === NEW_OBSTACLE;
+}
+
+function getPathWithoutExtraObstacles(matrix) {
+  makeGuardMove(matrix);
+
+  const result = [];
+
+  for (let i = 0; i < matrix.getWidth() * matrix.getHeight(); i++) {
+    const coordinates = matrix.getCoordinatesByIndex(i);
+
+    if (!!matrix.getElement(coordinates).data.visited) {
+      result.push(coordinates);
+    }
+  }
+
+  matrix.clearAllData();
+
+  return result;
 }
