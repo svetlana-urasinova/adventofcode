@@ -1,22 +1,28 @@
 import { getNeighborCoordinates } from '../utils/get-neighbor-coordinates.js';
 
 export class Matrix {
-  _data = [];
+  _matrix = [];
 
-  constructor(data) {
-    if (!data) {
+  constructor(matrix) {
+    if (!matrix) {
       throw new Error(`[Matrix] Empty matrix is not allowed`);
     }
 
-    if (!Array.isArray(data) || data.some(line => !Array.isArray(line))) {
+    if (!Array.isArray(matrix) || matrix.some(line => !Array.isArray(line) || line.length !== matrix[0].length)) {
       throw new Error(`[Matrix] Invalid matrix: should be a 2-dimensional array`);
     }
 
-    this._data = data;
+    for (let row = 0; row < matrix.length; row++) {
+      this._matrix[row] = [];
+
+      for (let column = 0; column < matrix[row].length; column++) {
+        this._matrix[row][column] = { value: matrix[row][column], data: {} };
+      }
+    }
   }
 
   getElement(coordinates) {
-    return this._data[coordinates.row]?.[coordinates.column];
+    return this._matrix[coordinates.row]?.[coordinates.column];
   }
 
   getNeighborElement(direction, coordinates, shift = 1) {
@@ -25,12 +31,22 @@ export class Matrix {
     return this.getElement(neighborCoordinates);
   }
 
+  updateData(coordinates, data) {
+    const { row, column } = coordinates;
+
+    if (!this._matrix[row]?.[column]) {
+      throw new Error(`Cannot update data: element [${(row, column)}] doesn't exist.`);
+    }
+
+    this._matrix[row][column].data = data;
+  }
+
   getWidth() {
-    return this._data[0]?.length;
+    return this._matrix[0]?.length;
   }
 
   getHeight() {
-    return this._data.length;
+    return this._matrix.length;
   }
 
   getIndexByCoordinates(coordinates) {
@@ -43,7 +59,7 @@ export class Matrix {
     let currentCoordinates = { ...coordinates };
 
     for (let i = 0; i < search.length; i++) {
-      const currentChar = this.getElement(currentCoordinates);
+      const currentChar = this.getElement(currentCoordinates)?.value;
 
       if (!currentChar) {
         return false;
