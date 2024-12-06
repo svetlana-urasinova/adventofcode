@@ -72,14 +72,14 @@ function paintDiagonalMatch(blockElement, coordinates, search, counter) {
   const mid = Math.floor(search.length / 2);
 
   paintInDirection(
-    DIRECTIONS.RightBottom,
+    DIRECTIONS.RightDown,
     { row: row - mid, column: column - mid },
     search.length,
     blockElement,
     colors[counter % colors.length]
   );
   paintInDirection(
-    DIRECTIONS.LeftBottom,
+    DIRECTIONS.LeftDown,
     { row: row - mid, column: column + mid },
     search.length,
     blockElement,
