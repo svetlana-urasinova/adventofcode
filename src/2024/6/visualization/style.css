@@ -1,0 +1,173 @@
+* {
+  box-sizing: border-box;
+
+  --frame-brown: #603417;
+  --frame-gold: #f4b03e;
+  --frame-white: #f9f9f9;
+  --frame-dark: #335555;
+  --frame-darker: #222222;
+
+  --floor: #b4663c;
+  --floor-shadow: #444444;
+  --floor-visited: #a07054;
+  --floor-guard: #4caf50;
+  --floor-guard-stopped: #e53935;
+}
+
+body {
+  margin: 0;
+}
+
+main {
+  --main-padding: 20px;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+  padding: var(--main-padding);
+  width: 100vw;
+}
+
+.lab-container {
+  --container-border-size: 10px;
+  --container-outline-size: 4px;
+  --container-size: calc(100vh - 2 * (var(--main-padding) + var(--container-outline-size)));
+  aspect-ratio: 1 / 1;
+  background-image: url('./img/background.webp');
+  background-repeat: no-repeat;
+  background-size: 100%;
+  border: var(--container-border-size) solid var(--frame-dark);
+  height: var(--container-size);
+  outline: var(--frame-darker) solid var(--container-outline-size);
+  width: var(--container-size);
+}
+
+.lab-frame {
+  background-color: var(--frame-gold);
+  border: 2px solid var(--frame-white);
+  outline: 4px solid var(--frame-brown);
+  height: fit-content;
+  margin: calc(var(--container-size) / 7) auto;
+  padding: 7px;
+  width: fit-content;
+}
+
+.lab {
+  --cell-size: calc((var(--container-size) - 2 * var(--container-border-size) - 52px) / 17.5);
+  border: 2px solid var(--frame-brown);
+  display: grid;
+  grid-template-columns: repeat(10, var(--cell-size));
+  grid-template-rows: repeat(10, var(--cell-size));
+  width: fit-content;
+
+  & > div {
+    background: var(--floor);
+    background: linear-gradient(
+      0deg,
+      var(--floor) 32%,
+      var(--floor-shadow) 32%,
+      var(--floor-shadow) 33%,
+      var(--floor) 33%,
+      var(--floor) 66%,
+      var(--floor-shadow) 66%,
+      var(--floor-shadow) 67%,
+      var(--floor) 67%
+    );
+    background-size: 100%;
+    background-repeat: no-repeat;
+    border-top: 1px solid var(--floor-shadow);
+    border-right: 1px solid var(--floor-shadow);
+
+    &:nth-child(even) {
+      background: linear-gradient(
+        90deg,
+        var(--floor) 32%,
+        var(--floor-shadow) 32%,
+        var(--floor-shadow) 33%,
+        var(--floor) 33%,
+        var(--floor) 66%,
+        var(--floor-shadow) 66%,
+        var(--floor-shadow) 67%,
+        var(--floor) 67%
+      );
+    }
+
+    &.visited {
+      background: var(--floor-visited);
+      background: linear-gradient(
+        0deg,
+        var(--floor-visited) 32%,
+        var(--floor-shadow) 32%,
+        var(--floor-shadow) 33%,
+        var(--floor-visited) 33%,
+        var(--floor-visited) 66%,
+        var(--floor-shadow) 66%,
+        var(--floor-shadow) 67%,
+        var(--floor-visited) 67%
+      );
+
+      &:nth-child(even) {
+        background: linear-gradient(
+          90deg,
+          var(--floor-visited) 32%,
+          var(--floor-shadow) 32%,
+          var(--floor-shadow) 33%,
+          var(--floor-visited) 33%,
+          var(--floor-visited) 66%,
+          var(--floor-shadow) 66%,
+          var(--floor-shadow) 67%,
+          var(--floor-visited) 67%
+        );
+      }
+    }
+
+    > img {
+      object-fit: contain;
+      height: 100%;
+      width: 100%;
+    }
+
+    .guard {
+      background-color: var(--floor-guard);
+      background-image: url('./img/guard/guard1.png');
+      background-size: 100%;
+      height: 100%;
+      width: 100%;
+
+      &.facing-right {
+        transform: scaleX(-1);
+      }
+
+      &.walking {
+        animation: walkingGuard 0.5s;
+        animation-duration: 0.5s;
+      }
+
+      &.stopped {
+        animation: stoppingGuard 0.5s infinite;
+      }
+    }
+  }
+}
+
+@keyframes walkingGuard {
+  0% {
+    background-image: url('./img/guard/guard1.png');
+  }
+  50% {
+    background-image: url('./img/guard/guard2.png');
+  }
+  75% {
+    background-image: url('./img/guard/guard4.png');
+  }
+}
+
+@keyframes stoppingGuard {
+  0% {
+    background-color: none;
+  }
+
+  50% {
+    background-color: var(--floor-guard-stopped);
+  }
+}

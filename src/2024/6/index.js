@@ -1,4 +1,4 @@
-import { input } from './input.js';
+import { input } from './input-example.js';
 import { Matrix } from './../../classes/matrix.js';
 import { DIRECTIONS } from '../../constants/directions.js';
 import { turnClockwise } from '../../utils/directions.js';
@@ -32,8 +32,6 @@ export function part1(input) {
 }
 
 export function part2(input) {
-  console.time();
-
   const matrix = getInputData(input);
 
   const path = getPathWithoutExtraObstacles(matrix);
@@ -62,8 +60,6 @@ export function part2(input) {
     }
   }
 
-  console.timeEnd();
-
   return total;
 }
 
@@ -85,7 +81,7 @@ function makeGuardMove(matrix) {
   }
 }
 
-function getInitialGuardPosition(matrix) {
+export function getInitialGuardPosition(matrix) {
   for (let row = 0; row < matrix.getHeight(); row++) {
     for (let column = 0; column < matrix.getWidth(); column++) {
       const guardDirection = Object.entries(GUARD).find(
@@ -101,7 +97,7 @@ function getInitialGuardPosition(matrix) {
   throw new Error(`Cannot determine guard's initial position!`);
 }
 
-function updateGuardPosition(guardPosition, matrix) {
+export function updateGuardPosition(guardPosition, matrix) {
   const { row, column, direction } = guardPosition;
 
   const targetCoordinates = getNeighborCoordinates(direction, { row, column });
@@ -117,15 +113,15 @@ function updateGuardPosition(guardPosition, matrix) {
   }
 
   if (isObstacle(target.value)) {
-    return { row, column, direction: turnClockwise(direction) };
+    return { row, column, direction: turnClockwise(direction), hasObstacle: true };
   } else {
     matrix.updateData(targetCoordinates, { visited: [...(target.data.visited || []), direction] });
 
-    return { ...targetCoordinates, direction };
+    return { ...targetCoordinates, direction, hasObstacle: false };
   }
 }
 
-function isObstacle(value) {
+export function isObstacle(value) {
   return value === OBSTACLE || value === NEW_OBSTACLE;
 }
 
