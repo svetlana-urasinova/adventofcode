@@ -7,23 +7,73 @@ export function main() {
   const part2Answer = part2(data);
 
   return `
-        <p>Answer to part 1: <span class="answer">${part1Answer}</span>.</p>        
-        <p>Answer to part 2: <span class="answer">${part2Answer}</span>.</p>        
+        <p>Total calibration result with sum and multiplication is <span class="answer">${part1Answer}</span>.</p>        
+        <p>Total calibration result with sum, multiplication, and concatenation is <span class="answer">${part2Answer}</span>.</p>        
     `;
 }
 
 export function part1(data) {
-  return '(answer)';
+  let total = 0n;
+
+  for (let i = 0; i < data.length; i++) {
+    const { result, numbers } = data[i];
+
+    if (isValidEquation(numbers, result)) {
+      total += result;
+    }
+  }
+
+  return total;
 }
 
 export function part2(data) {
-  return '(answer)';
+  let total = 0n;
+
+  for (let i = 0; i < data.length; i++) {
+    const { result, numbers } = data[i];
+
+    if (isValidEquation(numbers, result, true)) {
+      total += result;
+    }
+  }
+
+  return total;
 }
 
 export function getInputData(input) {
   return input.split('\n').map(line => {
     const [resultStr, numbersStr] = line.split(': ');
 
-    return { result: +resultStr, numbers: numbersStr.split(' ').map(number => +number) };
+    return { result: BigInt(resultStr), numbers: numbersStr.split(' ').map(number => BigInt(number)) };
   });
+}
+
+function isValidEquation(numbers, result, enableConcatenation = false) {
+  let stack = [result];
+
+  for (let i = numbers.length - 1; i >= 0; i--) {
+    const stackLength = stack.length;
+
+    for (let j = 0; j < stackLength; j++) {
+      const rest = stack.shift();
+
+      if (rest === numbers[i]) {
+        return true;
+      }
+
+      if (rest % numbers[i] === 0n) {
+        stack.push(rest / numbers[i]);
+      }
+
+      if (rest - numbers[i] >= 0n) {
+        stack.push(rest - numbers[i]);
+      }
+
+      if (enableConcatenation && rest.toString().endsWith(numbers[i].toString())) {
+        stack.push(BigInt(rest.toString().slice(0, rest.toString().length - numbers[i].toString().length)));
+      }
+    }
+  }
+
+  return false;
 }
