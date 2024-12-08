@@ -21,5 +21,9 @@ export function part2(data) {
 }
 
 export function getInputData(input) {
-  return input;
+  return input.split('\n').map(line => {
+    const [resultStr, numbersStr] = line.split(': ');
+
+    return { result: +resultStr, numbers: numbersStr.split(' ').map(number => +number) };
+  });
 }
