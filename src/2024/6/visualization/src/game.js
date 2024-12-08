@@ -34,7 +34,7 @@ export class Game {
     if (isNew) {
       this._matrix.updateValue(coordinates, NEW_OBSTACLE);
 
-      obstacleElement.classList.add('new');
+      this._cells[index].classList.add('new');
     }
 
     obstacleElement.src = `./img/obstacles/${obstacle}`;

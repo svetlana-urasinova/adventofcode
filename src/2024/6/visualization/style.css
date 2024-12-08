@@ -144,6 +144,12 @@ main {
       }
     }
 
+    &.new {
+      &::before {
+        filter: brightness(1.3) contrast(1.2);
+      }
+    }
+
     &:has(img) {
       &::before {
         filter: brightness(0.6) contrast(1.1);
