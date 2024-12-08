@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>2024-6 (Part 1)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&family=Comforter+Brush&family=IM+Fell+English:ital@0;1&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main>
+      <div class="lab-background">
+        <div class="lab-container">
+          <div class="lab-frame">
+            <div class="lab" id="lab"></div>
+            <div class="start" id="startBubble">
+              <button class="button start-button" id="startButton">Press to start</button>
+            </div>
+            <div class="bubble-wrapper hidden" id="bubble">
+              <div class="bubble">
+                <div class="bubble-header"></div>
+                <div class="bubble-text"></div>
+                <div class="bubble-avatar"></div>
+              </div>
+            </div>
+          </div>
+          <div class="menu" id="labMenu">
+            <h2 class="menu-header">Add an obstacle:</h2>
+            <div class="menu-inputs">
+              <input type="number" class="menu-input" id="newObstacleX" min="1" max="10" placeholder="X" />
+              <input type="number" class="menu-input" id="newObstacleY" min="1" max="10" placeholder="Y" />
+            </div>
+            <div class="menu-buttons">
+              <button class="button menu-button create" id="createObstacle">Create</button>
+              <button class="button menu-button reset" id="resetObstacles">Reset</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <script type="module" src="./src/index.js"></script>
+  </body>
+</html>

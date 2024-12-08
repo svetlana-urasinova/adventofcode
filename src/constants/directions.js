@@ -1,28 +1,10 @@
-import { COLORS, getColorWithIntersection } from '../vizualisation/colors/colors.js';
-
 export const DIRECTIONS = {
-  Top: 'top',
-  Bottom: 'bottom',
+  Up: 'up',
+  Down: 'down',
   Left: 'left',
-  LeftTop: 'left-top',
-  LeftBottom: 'left-bottom',
+  LeftUp: 'left-up',
+  LeftDown: 'left-down',
   Right: 'right',
-  RightTop: 'right-top',
-  RightBottom: 'right-bottom',
+  RightUp: 'right-up',
+  RightDown: 'right-down',
 };
-
-export function getColorByDirection(direction, colors) {
-  switch (direction) {
-    case DIRECTIONS.Left:
-    case DIRECTIONS.Right:
-      return getColorWithIntersection(COLORS.Green, colors);
-    case DIRECTIONS.Top:
-    case DIRECTIONS.Bottom:
-      return getColorWithIntersection(COLORS.Blue, colors);
-    case DIRECTIONS.LeftTop:
-    case DIRECTIONS.LeftBottom:
-    case DIRECTIONS.RightTop:
-    case DIRECTIONS.RightBottom:
-      return getColorWithIntersection(COLORS.Red, colors);
-  }
-}

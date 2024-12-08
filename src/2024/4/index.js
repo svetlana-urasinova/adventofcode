@@ -65,12 +65,12 @@ export function checkDiagonalMatch(coordinates, search, matrix) {
   const mid = Math.floor(search.length / 2);
 
   if (
-    matrix.checkMatch(DIRECTIONS.RightBottom, getNeighborCoordinates(DIRECTIONS.LeftTop, coordinates, mid), search) ||
-    matrix.checkMatch(DIRECTIONS.LeftTop, getNeighborCoordinates(DIRECTIONS.RightBottom, coordinates, mid), search)
+    matrix.checkMatch(DIRECTIONS.RightDown, getNeighborCoordinates(DIRECTIONS.LeftUp, coordinates, mid), search) ||
+    matrix.checkMatch(DIRECTIONS.LeftUp, getNeighborCoordinates(DIRECTIONS.RightDown, coordinates, mid), search)
   ) {
     return (
-      matrix.checkMatch(DIRECTIONS.LeftBottom, getNeighborCoordinates(DIRECTIONS.RightTop, coordinates, mid), search) ||
-      matrix.checkMatch(DIRECTIONS.RightTop, getNeighborCoordinates(DIRECTIONS.LeftBottom, coordinates, mid), search)
+      matrix.checkMatch(DIRECTIONS.LeftDown, getNeighborCoordinates(DIRECTIONS.RightUp, coordinates, mid), search) ||
+      matrix.checkMatch(DIRECTIONS.RightUp, getNeighborCoordinates(DIRECTIONS.LeftDown, coordinates, mid), search)
     );
   }
 }

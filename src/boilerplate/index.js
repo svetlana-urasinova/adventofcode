@@ -7,8 +7,8 @@ export function main() {
   const part2Answer = part2(data);
 
   return `
-        <p>Answer to part 1: <span class="answer">${part1Answer}</span></p>        
-        <p>Answer to part 2: <span class="answer">${part2Answer}</span></p>        
+        <p>Answer to part 1: <span class="answer">${part1Answer}</span>.</p>        
+        <p>Answer to part 2: <span class="answer">${part2Answer}</span>.</p>        
     `;
 }
 
@@ -20,6 +20,6 @@ export function part2(data) {
   return '(answer)';
 }
 
-export function getInputData(data) {
-  return data;
+export function getInputData(input) {
+  return input;
 }
