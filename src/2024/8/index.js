@@ -1,5 +1,6 @@
 import { input } from './input.js';
 import { Matrix } from '../../classes/matrix.js';
+import { DIRECTIONS } from '../../constants/directions.js';
 
 const EMPTY = '.';
 
@@ -9,7 +10,7 @@ export function main() {
 
   return `
         <p><span class="answer">${part1Answer}</span> unique locations within the bounds of the map contain an antinode.</p>        
-        <p>Answer to part 2: <span class="answer">${part2Answer}</span>.</p>        
+        <p><span class="answer">${part2Answer}</span> unique locations within the bounds of the map contain an antinode with considering the effects of resonant harmonics.</p>        
     `;
 }
 
@@ -24,7 +25,7 @@ export function part1(input) {
     const pairs = getAllPossiblePairs(antennas[key]);
 
     for (const pair of pairs) {
-      const antinodes = getAntinodes(pair);
+      const antinodes = [getPreviousAntinode(pair), getNextAntinode(pair)];
 
       antinodes.forEach(antinode => {
         const element = matrix.getElement(antinode);
@@ -44,7 +45,22 @@ export function part1(input) {
 }
 
 export function part2(input) {
-  return '(answer)';
+  const matrix = getInputData(input);
+
+  const antennas = getAntennas(matrix);
+
+  let total = 0;
+
+  for (const key in antennas) {
+    const pairs = getAllPossiblePairs(antennas[key]);
+
+    for (const pair of pairs) {
+      total += updateAllNodes(pair, DIRECTIONS.Left, matrix);
+      total += updateAllNodes(pair, DIRECTIONS.Right, matrix);
+    }
+  }
+
+  return total;
 }
 
 export function getInputData(input) {
@@ -79,11 +95,45 @@ function getAllPossiblePairs(antennas) {
   return pairs;
 }
 
-function getAntinodes(pair) {
+function getPreviousAntinode(pair) {
   const [antenna1, antenna2] = pair;
 
-  return [
-    { row: 2 * antenna1.row - antenna2.row, column: 2 * antenna1.column - antenna2.column },
-    { row: 2 * antenna2.row - antenna1.row, column: 2 * antenna2.column - antenna1.column },
-  ];
+  return { row: 2 * antenna1.row - antenna2.row, column: 2 * antenna1.column - antenna2.column };
+}
+
+function getNextAntinode(pair) {
+  const [antenna1, antenna2] = pair;
+
+  return { row: 2 * antenna2.row - antenna1.row, column: 2 * antenna2.column - antenna1.column };
+}
+
+function updateAllNodes(pair, direction, matrix) {
+  let total = 0;
+
+  if (direction !== DIRECTIONS.Left && direction !== DIRECTIONS.Right) {
+    throw new Error(`Not supported direction: ${direction}`);
+  }
+
+  let currentPair = pair;
+
+  while (true) {
+    const currentPairCoordinates = direction === DIRECTIONS.Left ? currentPair[0] : currentPair[1];
+
+    const currentElement = matrix.getElement(currentPairCoordinates);
+
+    if (!currentElement) {
+      return total;
+    }
+
+    if (!currentElement.data.antinode) {
+      matrix.updateData(currentPairCoordinates, { antinode: true });
+
+      total++;
+    }
+
+    currentPair =
+      direction === DIRECTIONS.Left
+        ? [getPreviousAntinode(currentPair), currentPairCoordinates]
+        : [currentPairCoordinates, getNextAntinode(currentPair)];
+  }
 }
