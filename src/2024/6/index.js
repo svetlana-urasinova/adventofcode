@@ -12,7 +12,7 @@ const GUARD = {
 };
 
 const OBSTACLE = '#';
-const NEW_OBSTACLE = 'o';
+export const NEW_OBSTACLE = 'o';
 const EMPTY = '.';
 
 export function main() {
@@ -109,7 +109,7 @@ export function updateGuardPosition(guardPosition, matrix) {
   }
 
   if (target.data.visited?.includes(direction)) {
-    throw new Error('Oh no, the guard got in the infinite loop!');
+    throw new Error(`Oh no, it seems I've gotten stuck in an infinite loop!`);
   }
 
   if (isObstacle(target.value)) {
