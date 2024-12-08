@@ -59,7 +59,7 @@ main {
 .lab-background {
   --background-border-size: 10px;
   --background-outline-size: 4px;
-  --container-size: calc(100vh - 2 * (var(--main-padding) + var(--background-outline-size)));
+  --container-size: calc(max(600px, 100vh - 2 * (var(--main-padding) + var(--background-outline-size))));
   --cell-size: calc((var(--container-size) - 2 * var(--background-border-size) - 52px) / 12);
   aspect-ratio: 1 / 1;
   background-image: url('./img/background.webp');
@@ -76,8 +76,8 @@ main {
   align-items: center;
   display: flex;
   flex-direction: column;
+  gap: 24px;
   height: 100%;
-  justify-content: space-between;
   width: fit-content;
 }
 
@@ -196,6 +196,7 @@ main {
 }
 
 .menu {
+  --item-size: 40px;
   align-items: center;
   background-color: var(--stone);
   background-image: url('./img/stone.png');
@@ -203,11 +204,10 @@ main {
   border-radius: 6px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   display: flex;
-  gap: 8px;
-  justify-content: space-between;
+  gap: 24px;
+  justify-content: center;
   font-optical-sizing: auto;
   padding: 6px 20px;
-  width: 100%;
 
   .menu-header {
     font-size: 20px;
@@ -227,10 +227,10 @@ main {
       font-size: 20px;
       font-family: 'Cinzel', serif;
       font-weight: bold;
-      height: var(--cell-size);
+      height: var(--item-size);
       padding: 4px 13px;
       text-align: center;
-      width: var(--cell-size);
+      width: var(--item-size);
 
       -moz-appearance: textfield;
       appearance: textfield;
@@ -264,7 +264,7 @@ main {
     gap: 8px;
 
     .menu-button {
-      height: var(--cell-size);
+      height: var(--item-size);
 
       &.create {
         background: linear-gradient(45deg, var(--gold), var(--gold-lighter));
