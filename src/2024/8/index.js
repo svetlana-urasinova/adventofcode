@@ -1,8 +1,7 @@
 import { input } from './input.js';
 import { Matrix } from '../../classes/matrix.js';
 import { DIRECTIONS } from '../../constants/directions.js';
-
-const EMPTY = '.';
+import { EMPTY } from '../../constants/empty.js';
 
 export function main() {
   const part1Answer = part1(input);
