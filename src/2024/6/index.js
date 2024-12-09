@@ -3,6 +3,7 @@ import { Matrix } from './../../classes/matrix.js';
 import { DIRECTIONS } from '../../constants/directions.js';
 import { turnClockwise } from '../../utils/directions.js';
 import { getNeighborCoordinates } from '../../utils/get-neighbor-coordinates.js';
+import { EMPTY } from '../../constants/empty.js';
 
 const GUARD = {
   [DIRECTIONS.Up]: '^',
@@ -13,7 +14,6 @@ const GUARD = {
 
 const OBSTACLE = '#';
 export const NEW_OBSTACLE = 'o';
-const EMPTY = '.';
 
 export function main() {
   const part1Answer = part1(input);
