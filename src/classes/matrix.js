@@ -25,10 +25,12 @@ export class Matrix {
     return this._matrix[coordinates.row]?.[coordinates.column];
   }
 
-  getNeighborElement(direction, coordinates, shift = 1) {
+  getNeighbor(direction, coordinates, shift = 1) {
     const neighborCoordinates = getNeighborCoordinates(direction, coordinates, shift);
 
-    return this.getElement(neighborCoordinates);
+    const neighbor = this.getElement(neighborCoordinates);
+
+    return neighbor ? { ...neighbor, ...neighborCoordinates } : null;
   }
 
   updateValue(coordinates, value) {
