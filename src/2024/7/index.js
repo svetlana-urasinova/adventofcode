@@ -49,28 +49,28 @@ export function getInputData(input) {
 }
 
 function isValidEquation(numbers, result, enableConcatenation = false) {
-  let stack = [result];
+  let queue = [result];
 
   for (let i = numbers.length - 1; i >= 0; i--) {
-    const stackLength = stack.length;
+    const queueLength = queue.length;
 
-    for (let j = 0; j < stackLength; j++) {
-      const rest = stack.shift();
+    for (let j = 0; j < queueLength; j++) {
+      const rest = queue.shift();
 
       if (rest === numbers[i]) {
         return true;
       }
 
       if (rest % numbers[i] === 0n) {
-        stack.push(rest / numbers[i]);
+        queue.push(rest / numbers[i]);
       }
 
       if (rest - numbers[i] >= 0n) {
-        stack.push(rest - numbers[i]);
+        queue.push(rest - numbers[i]);
       }
 
       if (enableConcatenation && rest.toString().endsWith(numbers[i].toString())) {
-        stack.push(BigInt(rest.toString().slice(0, rest.toString().length - numbers[i].toString().length)));
+        queue.push(BigInt(rest.toString().slice(0, rest.toString().length - numbers[i].toString().length)));
       }
     }
   }
