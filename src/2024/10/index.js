@@ -1,6 +1,7 @@
 import { input } from './input.js';
 import { Matrix } from '../../classes/matrix.js';
 import { DIRECTIONS } from '../../constants/directions.js';
+import { getFilteredNeighbors } from '../../utils/get-filtered-neighbors.js';
 
 const neighborDirections = [DIRECTIONS.Up, DIRECTIONS.Down, DIRECTIONS.Left, DIRECTIONS.Right];
 
@@ -45,20 +46,6 @@ function getStartPositions(matrix) {
   }
 
   return startPositions;
-}
-
-function getFilteredNeighbors(filter, coordinates, directions, matrix) {
-  const neighbors = [];
-
-  for (const direction of directions) {
-    const neighbor = matrix.getNeighbor(direction, coordinates);
-
-    if (neighbor && neighbor.value === filter) {
-      neighbors.push(neighbor);
-    }
-  }
-
-  return neighbors;
 }
 
 function buildAllPaths(matrix) {
