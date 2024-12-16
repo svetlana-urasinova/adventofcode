@@ -28,6 +28,10 @@ export class Matrix {
   getNeighbor(direction, coordinates, shift = 1) {
     const neighborCoordinates = getNeighborCoordinates(direction, coordinates, shift);
 
+    if (!neighborCoordinates) {
+      return null;
+    }
+
     const neighbor = this.getElement(neighborCoordinates);
 
     return neighbor ? { ...neighbor, ...neighborCoordinates } : null;

@@ -1,4 +1,4 @@
-import { input } from './input-example.js';
+import { input } from './input-example3.js';
 import { Matrix } from './../../classes/matrix.js';
 import { DIRECTIONS } from '../../constants/directions.js';
 import { getFilteredNeighbors } from '../../utils/get-filtered-neighbors.js';
@@ -24,7 +24,16 @@ export function part1(input) {
 }
 
 export function part2(input) {
-  return '(answer)';
+  const matrix = getInputData(input);
+
+  const regions = buildRegions(matrix);
+
+  return regions.reduce((price, region) => {
+    const area = calculateArea(region);
+    const sides = calculateSidesNumber(region, matrix);
+
+    return price + area * sides;
+  }, 0);
 }
 
 export function getInputData(input) {
@@ -36,7 +45,7 @@ function buildRegions(matrix) {
 
   for (let row = 0; row < matrix.getHeight(); row++) {
     for (let column = 0; column < matrix.getWidth(); column++) {
-      const { value, data } = matrix.getElement({ row, column });
+      const { data } = matrix.getElement({ row, column });
 
       if (data.visited) {
         continue;
@@ -90,4 +99,58 @@ function calculatePerimeter(region, matrix) {
         .filter(neighbor => neighbor === null || neighbor.value !== plot.value)
     )
     .reduce((perimeter, sides) => perimeter + sides.length, 0);
+}
+
+function calculateSidesNumber(region, matrix) {
+  const rows = new Set();
+  const columns = new Set();
+
+  for (const plot of region) {
+    rows.add(plot.row);
+    columns.add(plot.column);
+  }
+
+  const min = { row: Math.min(...rows), column: Math.min(...columns) };
+  const max = { row: Math.max(...rows), column: Math.max(...columns) };
+
+  let total = 0;
+
+  for (const row of rows) {
+    total += countSidesInRowOrColumn(DIRECTIONS.Up, row, null, region, min.column, max.column, matrix, print);
+    total += countSidesInRowOrColumn(DIRECTIONS.Down, row, null, region, min.column, max.column, matrix, print);
+  }
+
+  for (const column of columns) {
+    total += countSidesInRowOrColumn(DIRECTIONS.Left, null, column, region, min.row, max.row, matrix, print);
+    total += countSidesInRowOrColumn(DIRECTIONS.Right, null, column, region, min.row, max.row, matrix, print);
+  }
+
+  return total;
+}
+
+function countSidesInRowOrColumn(direction, row, column, region, min, max, matrix, print = false) {
+  let total = 0;
+
+  let isSide = false;
+
+  for (let i = min; i <= max; i++) {
+    const coordinates = row === null ? { row: i, column } : { row, column: i };
+
+    const current = matrix.getElement(coordinates);
+    const neighbor = matrix.getNeighbor(direction, coordinates);
+
+    if (
+      !isSide &&
+      current.value === region[0].value &&
+      neighbor?.value !== region[0].value &&
+      region.some(el => el.row === coordinates.row && el.column === coordinates.column)
+    ) {
+      total++;
+      isSide = true;
+    } else if ((current.value === region[0].value) === (neighbor?.value === region[0].value)) {
+      isSide = false;
+    }
+  }
+
+  return total;
 }
