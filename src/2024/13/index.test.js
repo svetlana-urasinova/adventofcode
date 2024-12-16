@@ -4,7 +4,7 @@ import { input } from './input-example.js';
 describe('2024-%DAY%', () => {
   const data = getInputData(input);
 
-  test('part 1: %TEST_NAME%', () => {
+  test('part 1: should calculate the fewest tokens you would have to spend to win all possible prizes', () => {
     // expect(part1(data)).toBe();
   });
 
