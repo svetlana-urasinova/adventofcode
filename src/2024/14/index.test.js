@@ -1,14 +1,10 @@
 import { part1, part2, getInputData } from './index.js';
 import { input } from './input-example.js';
 
-describe('2024-%DAY%', () => {
+describe('2024-14', () => {
   const data = getInputData(input);
 
-  test('part 1: %TEST_NAME%', () => {
-    // expect(part1(data)).toBe();
-  });
-
-  test('part 2: %TEST_NAME%', () => {
-    // expect(part2(data)).toBe();
+  test('part 1: should calculatethe safety factor be after exactly 100 seconds have elapsed', () => {
+    expect(part1(data)).toBe(12);
   });
 });
