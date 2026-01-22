@@ -6,7 +6,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.23"
   },
   "devDependencies": {
     "@babel/core": "^7.23.3",
